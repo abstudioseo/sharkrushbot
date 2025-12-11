@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Panel - MoneyShark</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a1628;
+            --bg-secondary: #0f2744;
+            --bg-card: rgba(15, 39, 68, 0.8);
+            --primary: #06b6d4;
+            --primary-glow: rgba(6, 182, 212, 0.3);
+            --secondary: #3b82f6;
+            --accent: #22d3ee;
+            --gold: #fbbf24;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border: rgba(6, 182, 212, 0.2);
+            --border-hover: rgba(6, 182, 212, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #051c2e 50%, #0a1628 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, var(--primary-glow) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px 40px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 100px var(--primary-glow);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .shield-icon {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 44px;
+            box-shadow: 
+                0 0 40px var(--primary-glow),
+                0 0 80px var(--primary-glow);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px var(--primary-glow); }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px var(--primary-glow); }
+        }
+
+        h1 {
+            color: var(--text-primary);
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--primary-glow);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid var(--border);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #b91c1c);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #15803d);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .dashboard {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 0 30px var(--primary-glow);
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 8px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--text-primary);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        .tab-content {
+            display: none;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-hover);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-header-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .item {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-pending {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .badge-approved {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .badge-rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .badge-active {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--primary);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+        }
+
+        .badge-ended {
+            background: rgba(100, 116, 139, 0.2);
+            color: var(--text-muted);
+            border: 1px solid rgba(100, 116, 139, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 10px 18px;
+            font-size: 12px;
+            width: auto;
+            border-radius: 10px;
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .help-text {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(59, 130, 246, 0.1));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 32px 0;
+        }
+
+        .prize-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .prize-input-group .prize-rank {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .prize-rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
+        .prize-rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); color: #000; }
+        .prize-rank-3 { background: linear-gradient(135deg, #a78bfa, #7c3aed); color: #fff; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            padding: 16px 24px;
+            border-radius: 12px;
+            backdrop-filter: blur(20px);
+            animation: toastIn 0.3s ease-out;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 768px) {
+            .grid, .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .tab {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                padding: 20px;
+            }
+
+            .login-card {
+                padding: 32px 24px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .toast {
+                min-width: auto;
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="shield-icon">🦈</div>
+                <h1>Admin Panel</h1>
+                <p class="subtitle">Enter your credentials to access MoneyShark admin</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>📧 Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="admin@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>🔒 Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn" id="loginBtn">
+                    🚀 Login to Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <div class="dashboard">
+            <div class="header">
+                <div class="header-left">
+                    <div class="header-icon">🦈</div>
+                    <div>
+                        <h2>MoneyShark Admin</h2>
+                        <p class="subtitle">Manage your application</p>
+                    </div>
+                </div>
+                <button class="btn btn-small btn-secondary" onclick="logout()">🚪 Logout</button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('withdrawals')">💰 Withdrawals</div>
+                <div class="tab" onclick="switchTab('tasks')">📋 Tasks</div>
+                <div class="tab" onclick="switchTab('quests')">🎯 Quests</div>
+                <div class="tab" onclick="switchTab('giveaways')">🎉 Giveaways</div>
+                <div class="tab" onclick="switchTab('settings')">⚙️ Settings</div>
+                <div class="tab" onclick="switchTab('luckycodes')">🎁 Lucky Codes</div>
+                <div class="tab" onclick="switchTab('gifts')">📦 Gifts</div>
+                <div class="tab" onclick="switchTab('admins')">👥 Admins</div>
+            </div>
+
+            <!-- Withdrawals Tab -->
+            <div id="withdrawals" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">💰</div>
+                        Pending Withdrawals
+                    </div>
+                    <p class="card-subtitle">Review and process withdrawal requests from users</p>
+                </div>
+                <div id="withdrawalsList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading withdrawals...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Tab -->
+            <div id="tasks" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">➕</div>
+                        Create New Task
+                    </div>
+                    <p class="card-subtitle">Add a new task for users to complete and earn rewards</p>
+                    
+                    <div class="form-group">
+                        <label>Task Title</label>
+                        <input type="text" id="taskTitle" placeholder="e.g., Follow our Twitter">
+                    </div>
+                    <div class="form-group">
+                        <label>Task Description</label>
+                        <textarea id="taskDesc" rows="3" placeholder="Describe what users need to do..."></textarea>
+                    </div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Task Type</label>
+                            <select id="taskType">
+                                <option value="link">🔗 Direct Link</option>
+                                <option value="telegram">📱 Telegram Channel</option>
+                                <option value="code">🔑 Code Task</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Reward (GOLD)</label>
+                            <input type="number" id="taskReward" value="100" placeholder="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Max Impressions</label>
+                            <input type="number" id="taskImpressions" value="1000" placeholder="1000">
+                            <p class="help-text">How many times task will be shown</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Task Link / Channel URL</label>
+                        <input type="url" id="taskLink" placeholder="https://example.com or https://t.me/channel">
+                    </div>
+                    <div class="form-group" id="taskCodeGroup" style="display: none;">
+                        <label>Required Code</label>
+                        <input type="text" id="taskCode" placeholder="Enter code users must input">
+                    </div>
+                    <button class="btn" onclick="createTask()">➕ Create Task</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">📋</div>
+                        Active Tasks
+                    </div>
+                    <p class="card-subtitle">Manage existing tasks</p>
+                    <div id="tasksList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading tasks...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quests Tab -->
+            <div id="quests" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🎯</div>
+                        Create New Quest
+                    </div>
+                    <p class="card-subtitle">Create milestone-based quests for users to complete</p>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Quest Title</label>
+                            <input type="text" id="questTitle" placeholder="e.g., Referral Master">
+                        </div>
+                        <div class="form-group">
+                            <label>Quest Type</label>
+                            <select id="questType">
+                                <option value="referral">👥 Referral Quest</option>
+                                <option value="task">✅ Task Completion Quest</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Target Count</label>
+                            <input type="number" id="questTarget" value="5" placeholder="5">
+                            <p class="help-text">Number of referrals/tasks needed</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Reward (GOLD)</label>
+                            <input type="number" id="questReward" value="1000" placeholder="1000">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Quest Description</label>
+                        <textarea id="questDescription" rows="2" placeholder="Describe the quest..."></textarea>
+                    </div>
+                    <button class="btn" onclick="createQuest()">➕ Create Quest</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">📜</div>
+                        Active Quests
+                    </div>
+                    <p class="card-subtitle">Manage existing quests</p>
+                    <div id="questsList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading quests...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giveaways Tab -->
+            <div id="giveaways" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🎉</div>
+                        Create New Giveaway
+                    </div>
+                    <p class="card-subtitle">Create exciting giveaways for your users with card-based entry</p>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Giveaway Title</label>
+                            <input type="text" id="giveawayTitle" placeholder="e.g., Weekly Gold Rush">
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (Days)</label>
+                            <input type="number" id="giveawayDuration" value="7" min="1" max="30" placeholder="7">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Giveaway Description</label>
+                        <textarea id="giveawayDescription" rows="2" placeholder="Describe the giveaway..."></textarea>
+                    </div>
+
+                    <div class="section-divider"></div>
+                    
+                    <label style="margin-bottom: 16px; display: block;">🏆 Prize Distribution</label>
+                    <div class="prize-input-group">
+                        <div class="prize-rank prize-rank-1">1st</div>
+                        <input type="number" id="giveawayPrize1" value="10000" placeholder="1st Prize (GOLD)">
+                    </div>
+                    <div class="prize-input-group">
+                        <div class="prize-rank prize-rank-2">2nd</div>
+                        <input type="number" id="giveawayPrize2" value="5000" placeholder="2nd Prize (GOLD)">
+                    </div>
+                    <div class="prize-input-group">
+                        <div class="prize-rank prize-rank-3">3rd</div>
+                        <input type="number" id="giveawayPrize3" value="2500" placeholder="3rd Prize (GOLD)">
+                    </div>
+                    
+                    <button class="btn" onclick="createGiveaway()" style="margin-top: 20px;">🎉 Create Giveaway</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🏆</div>
+                        Active Giveaways
+                    </div>
+                    <p class="card-subtitle">Manage and end active giveaways</p>
+                    <div id="giveawaysList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading giveaways...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <!-- Currency & Rewards -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">💰</div>
+                        Currency & Rewards
+                    </div>
+                    <p class="card-subtitle">Configure GOLD and TON conversion rates</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>GOLD per TON</label>
+                            <input type="number" id="goldPerTon" placeholder="100">
+                            <p class="help-text">How much GOLD = 1 TON</p>
+                        </div>
+                        <div class="form-group">
+                            <label>TON per GOLD</label>
+                            <input type="number" step="0.000001" id="goldToTonRate" placeholder="0.00001">
+                            <p class="help-text">1 GOLD = X TON</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Withdrawal (GOLD)</label>
+                            <input type="number" id="minWithdrawal" placeholder="1000">
+                        </div>
+                        <div class="form-group">
+                            <label>Referral Percentage (%)</label>
+                            <input type="number" id="referralPercentage" placeholder="10">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gem Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">💎</div>
+                        Gem Settings
+                    </div>
+                    <p class="card-subtitle">Configure gem withdrawal requirements</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Gem Withdrawal Fee</label>
+                            <input type="number" id="gemWithdrawalFee" value="5" placeholder="5">
+                            <p class="help-text">Gems required to make a withdrawal</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Settings -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🎯</div>
+                        Task Settings
+                    </div>
+                    <p class="card-subtitle">Configure task creation and pricing</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Task Payment Address (TON)</label>
+                            <input type="text" id="taskPaymentAddress" placeholder="UQ...">
+                        </div>
+                        <div class="form-group">
+                            <label>Impression Price (TON per 100)</label>
+                            <input type="number" step="0.01" id="impressionPrice" placeholder="0.05">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ads & Daily Rewards -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">📺</div>
+                        Ads & Daily Rewards
+                    </div>
+                    <p class="card-subtitle">Configure advertising and check-in rewards</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Ad Reward (GOLD)</label>
+                            <input type="number" id="adReward" placeholder="50">
+                        </div>
+                        <div class="form-group">
+                            <label>Daily Ad Limit</label>
+                            <input type="number" id="dailyAdLimit" placeholder="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Daily Check-in Reward</label>
+                            <input type="number" id="dailyCheckReward" placeholder="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Check-in Channel Link</label>
+                            <input type="url" id="dailyCheckChannel" placeholder="https://t.me/your_channel">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bot Configuration -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🤖</div>
+                        Bot Configuration
+                    </div>
+                    <p class="card-subtitle">Telegram bot settings for notifications</p>
+                    <div class="form-group">
+                        <label>Bot API Token</label>
+                        <input type="text" id="botApiToken" placeholder="1234567890:ABC...">
+                    </div>
+                </div>
+
+                <!-- TON Connect Manifest -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🔗</div>
+                        TON Connect Manifest
+                    </div>
+                    <p class="card-subtitle">Configure TON wallet connection</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>App Name</label>
+                            <input type="text" id="manifestName" placeholder="MoneyShark">
+                        </div>
+                        <div class="form-group">
+                            <label>App URL</label>
+                            <input type="url" id="manifestUrl" placeholder="https://moneyshark.app">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Icon URL</label>
+                        <input type="url" id="manifestIconUrl" placeholder="https://moneyshark.app/icon.png">
+                    </div>
+                </div>
+
+                <!-- Theme Colors -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🎨</div>
+                        Theme Colors
+                    </div>
+                    <p class="card-subtitle">Customize app appearance (HSL format: H S% L%)</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Background Color</label>
+                            <input type="text" id="themeBackground" placeholder="200 50% 10%">
+                        </div>
+                        <div class="form-group">
+                            <label>Primary Color</label>
+                            <input type="text" id="themePrimary" placeholder="187 94% 43%">
+                        </div>
+                        <div class="form-group">
+                            <label>Gold/Accent Color</label>
+                            <input type="text" id="themeGold" placeholder="45 93% 58%">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 16px;">
+                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                            <input type="checkbox" id="allowTestnet" style="width: auto; cursor: pointer;">
+                            <span>Allow Testnet Mode</span>
+                        </label>
+                        <p class="help-text">Enable testnet for testing transactions</p>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="saveSettings()">💾 Save All Settings</button>
+            </div>
+
+            <!-- Lucky Codes Tab -->
+            <div id="luckycodes" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🎁</div>
+                        Create Lucky Code
+                    </div>
+                    <p class="card-subtitle">Create promotional codes for users to redeem rewards</p>
+                    
+                    <div class="form-group">
+                        <label>Code Title</label>
+                        <input type="text" id="luckyCodeTitle" placeholder="e.g., Welcome Bonus">
+                    </div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input type="text" id="luckyCode" placeholder="WELCOME2024" style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                            <label>Reward Type</label>
+                            <select id="luckyCodeType">
+                                <option value="gold">🪙 Gold</option>
+                                <option value="key">🔑 Key</option>
+                                <option value="gem">💎 Gem</option>
+                                <option value="card">🎴 Card</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Reward Amount</label>
+                            <input type="number" id="luckyCodeReward" value="500" placeholder="500">
+                        </div>
+                        <div class="form-group">
+                            <label>Expiration (Optional)</label>
+                            <input type="datetime-local" id="luckyCodeExpiry">
+                        </div>
+                    </div>
+                    <button class="btn" onclick="createLuckyCode()">➕ Create Lucky Code</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">📋</div>
+                        Active Lucky Codes
+                    </div>
+                    <div id="luckyCodesList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading lucky codes...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gifts Tab -->
+            <div id="gifts" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">📦</div>
+                        Gift/Treasure Settings
+                    </div>
+                    <p class="card-subtitle">Configure treasure chest reward tiers and probabilities</p>
+                    
+                    <div class="form-group">
+                        <label>Gift Opening Cost (Keys)</label>
+                        <input type="number" id="giftKeyCost" value="1" placeholder="1">
+                        <p class="help-text">Number of keys required to open a gift</p>
+                    </div>
+
+                    <div class="section-divider"></div>
+                    
+                    <label style="margin-bottom: 16px; display: block;">🎁 Reward Tiers</label>
+                    <div id="giftRewardsList"></div>
+                    
+                    <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px; margin-top: 20px;">
+                        <h4 style="color: var(--primary); margin-bottom: 16px;">➕ Add New Reward Tier</h4>
+                        <div class="grid">
+                            <div class="form-group">
+                                <label>Reward Amount (GOLD)</label>
+                                <input type="number" id="newGiftAmount" placeholder="100">
+                            </div>
+                            <div class="form-group">
+                                <label>Probability (%)</label>
+                                <input type="number" step="0.1" id="newGiftProbability" placeholder="10">
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="addGiftReward()">➕ Add Reward</button>
+                    </div>
+                    
+                    <button class="btn" style="margin-top: 24px;" onclick="saveGiftSettings()">💾 Save Gift Settings</button>
+                </div>
+            </div>
+
+            <!-- Admins Tab -->
+            <div id="admins" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">👥</div>
+                        Add Administrator
+                    </div>
+                    <p class="card-subtitle">Grant admin access using Telegram ID</p>
+                    
+                    <div style="display: flex; gap: 12px; align-items: end;">
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <label>Telegram ID</label>
+                            <input type="number" id="newAdminId" placeholder="Enter Telegram user ID">
+                        </div>
+                        <button class="btn btn-small" onclick="addAdmin()" style="height: 48px;">➕ Add</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-header-icon">🛡️</div>
+                        Current Administrators
+                    </div>
+                    <div id="adminsList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading admins...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getDatabase, ref, onValue, push, set, remove, get, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+        // Firebase configuration - MoneyShark
+        const firebaseConfig = {
+            apiKey: "AIzaSyBbJSRxCUzHZ5KN7ZLNpJ4dMPewTwMrmQM",
+            authDomain: "moneysharkappbot.firebaseapp.com",
+            databaseURL: "https://moneysharkappbot-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "moneysharkappbot",
+            storageBucket: "moneysharkappbot.firebasestorage.app",
+            messagingSenderId: "1020809498498",
+            appId: "1:1020809498498:web:d7e8e3d8c8b8c8d8e8f8g8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Make functions global
+        window.db = db;
+        window.auth = auth;
+        window.firebaseRef = ref;
+        window.firebaseSet = set;
+        window.firebasePush = push;
+        window.firebaseRemove = remove;
+        window.firebaseGet = get;
+        window.firebaseUpdate = update;
+        window.firebaseOnValue = onValue;
+
+        // Toast notification system
+        window.showToast = (message, type = 'success') => {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast alert-${type}`;
+            toast.innerHTML = `
+                <span>${type === 'success' ? '✅' : '❌'}</span>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'toastIn 0.3s ease-out reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+
+        // Legacy alert function
+        window.showAlert = (message, type) => {
+            showToast(message, type);
+        };
+
+        // Tab switching
+        window.switchTab = (tabId) => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        };
+
+        // Task type change handler
+        document.getElementById('taskType').addEventListener('change', (e) => {
+            const codeGroup = document.getElementById('taskCodeGroup');
+            codeGroup.style.display = e.target.value === 'code' ? 'block' : 'none';
+        });
+
+        // Auth state
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email === 'abcoinseo@gmail.com') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                loadData();
+            } else {
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('dashboard').classList.add('hidden');
+            }
+        });
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+            
+            btn.disabled = true;
+            btn.innerHTML = '🔄 Logging in...';
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                if (userCredential.user.email !== 'abcoinseo@gmail.com') {
+                    await signOut(auth);
+                    showToast('Unauthorized access', 'error');
+                } else {
+                    showToast('Login successful!', 'success');
+                }
+            } catch (error) {
+                let msg = 'Invalid credentials';
+                if (error.code === 'auth/user-not-found') msg = 'No account found';
+                else if (error.code === 'auth/wrong-password') msg = 'Incorrect password';
+                else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts';
+                showToast(msg, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🚀 Login to Dashboard';
+            }
+        });
+
+        // Logout
+        window.logout = async () => {
+            await signOut(auth);
+            showToast('Logged out successfully', 'success');
+        };
+
+        // Load all data
+        function loadData() {
+            loadWithdrawals();
+            loadTasks();
+            loadQuests();
+            loadGiveaways();
+            loadSettings();
+            loadLuckyCodes();
+            loadGiftSettings();
+            loadAdmins();
+        }
+
+        // ==================== WITHDRAWALS ====================
+        function loadWithdrawals() {
+            const withdrawalsRef = ref(db, 'withdrawals');
+            onValue(withdrawalsRef, (snapshot) => {
+                const container = document.getElementById('withdrawalsList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">💰</div>
+                            <p>No withdrawal requests</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const withdrawals = Object.entries(data)
+                    .map(([id, val]) => ({ id, ...val }))
+                    .filter(w => w.status === 'pending')
+                    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+                    .slice(0, 100);
+                
+                if (withdrawals.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">✅</div>
+                            <p>No pending withdrawals</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = withdrawals.map(w => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <strong style="color: var(--primary);">@${w.username || 'N/A'}</strong>
+                                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                                    ${w.createdAt ? new Date(w.createdAt).toLocaleString() : 'Unknown date'}
+                                </p>
+                            </div>
+                            <span class="badge badge-pending">${w.status}</span>
+                        </div>
+                        <div style="margin: 12px 0; font-size: 14px;">
+                            <p><strong>💰 Amount:</strong> ${w.goldAmount} GOLD → ${w.tonAmount ? w.tonAmount.toFixed(6) : 'N/A'} TON</p>
+                            <p style="font-size: 12px; color: var(--text-muted); word-break: break-all; margin-top: 6px;">
+                                📍 ${w.tonAddress || 'N/A'}
+                            </p>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-small btn-success" onclick="approveWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
+                                ✅ Approve
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="rejectWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
+                                ❌ Reject
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.approveWithdrawal = async (id, withdrawal) => {
+            const txHash = prompt('Enter transaction hash/link:');
+            if (!txHash) return;
+            
+            try {
+                await update(ref(db, `withdrawals/${id}`), {
+                    status: 'approved',
+                    transactionHash: txHash,
+                    processedAt: Date.now()
+                });
+                
+                const settingsSnapshot = await get(ref(db, 'admin/settings'));
+                if (settingsSnapshot.exists()) {
+                    const settings = settingsSnapshot.val();
+                    if (settings.botApiToken && (withdrawal.userId || withdrawal.chatId)) {
+                        const message = `✅ Withdrawal Approved!\n\n💰 Amount: ${withdrawal.goldAmount} GOLD → ${withdrawal.tonAmount ? withdrawal.tonAmount.toFixed(6) : 'N/A'} TON\n🔗 TX: ${txHash}`;
+                        
+                        await fetch(`https://api.telegram.org/bot${settings.botApiToken}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                chat_id: withdrawal.userId || withdrawal.chatId,
+                                text: message
+                            })
+                        });
+                    }
+                }
+                
+                showToast('Withdrawal approved!', 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error approving withdrawal', 'error');
+            }
+        };
+
+        window.rejectWithdrawal = async (id, withdrawal) => {
+            const reason = prompt('Enter rejection reason:');
+            if (!reason) return;
+            
+            try {
+                const userId = withdrawal.userId || withdrawal.chatId;
+                if (userId) {
+                    const userRef = ref(db, `users/${userId}`);
+                    const userSnap = await get(userRef);
+                    
+                    if (userSnap.exists()) {
+                        const balance = userSnap.val().goldBalance || 0;
+                        await update(userRef, {
+                            goldBalance: balance + withdrawal.goldAmount
+                        });
+                    }
+                    
+                    const settingsSnapshot = await get(ref(db, 'admin/settings'));
+                    if (settingsSnapshot.exists()) {
+                        const settings = settingsSnapshot.val();
+                        if (settings.botApiToken) {
+                            const message = `❌ Withdrawal Rejected\n\n💰 ${withdrawal.goldAmount} GOLD has been refunded\n📝 Reason: ${reason}`;
+                            
+                            await fetch(`https://api.telegram.org/bot${settings.botApiToken}/sendMessage`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    chat_id: userId,
+                                    text: message
+                                })
+                            });
+                        }
+                    }
+                }
+                
+                await update(ref(db, `withdrawals/${id}`), {
+                    status: 'rejected',
+                    rejectionReason: reason,
+                    processedAt: Date.now()
+                });
+                
+                showToast('Withdrawal rejected and refunded', 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error rejecting withdrawal', 'error');
+            }
+        };
+
+        // ==================== TASKS ====================
+        function loadTasks() {
+            const tasksRef = ref(db, 'tasks');
+            onValue(tasksRef, (snapshot) => {
+                const container = document.getElementById('tasksList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <p>No tasks created yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const tasks = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = tasks.map(t => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div style="flex: 1;">
+                                <strong>${t.title}</strong>
+                                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                                    ${t.type === 'telegram' ? '📱 Telegram' : t.type === 'code' ? '🔑 Code' : '🔗 Link'}
+                                    • 🪙 ${t.reward} GOLD
+                                </p>
+                                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
+                                    👁️ ${t.completedImpressions || 0}/${t.impressions || 1000} impressions
+                                </p>
+                            </div>
+                            <button class="btn btn-small btn-danger btn-icon" onclick="deleteTask('${t.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.createTask = async () => {
+            const title = document.getElementById('taskTitle').value.trim();
+            const description = document.getElementById('taskDesc').value.trim();
+            const type = document.getElementById('taskType').value;
+            const reward = parseInt(document.getElementById('taskReward').value);
+            const impressions = parseInt(document.getElementById('taskImpressions').value);
+            const link = document.getElementById('taskLink').value.trim();
+            const code = document.getElementById('taskCode').value.trim();
+            
+            if (!title || isNaN(reward) || reward <= 0) {
+                showToast('Please fill required fields correctly', 'error');
+                return;
+            }
+            
+            const taskData = {
+                title,
+                description,
+                type,
+                reward,
+                impressions: impressions || 1000,
+                completedImpressions: 0,
+                link,
+                is_active: true,
+                createdAt: Date.now()
+            };
+            
+            if (type === 'code' && code) {
+                taskData.code = code;
+            }
+            
+            try {
+                await push(ref(db, 'tasks'), taskData);
+                
+                // Clear form
+                document.getElementById('taskTitle').value = '';
+                document.getElementById('taskDesc').value = '';
+                document.getElementById('taskReward').value = '100';
+                document.getElementById('taskImpressions').value = '1000';
+                document.getElementById('taskLink').value = '';
+                document.getElementById('taskCode').value = '';
+                
+                showToast('Task created successfully!', 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error creating task', 'error');
+            }
+        };
+
+        window.deleteTask = async (id) => {
+            if (!confirm('Delete this task?')) return;
+            try {
+                await remove(ref(db, `tasks/${id}`));
+                showToast('Task deleted', 'success');
+            } catch (error) {
+                showToast('Error deleting task', 'error');
+            }
+        };
+
+        // ==================== QUESTS ====================
+        function loadQuests() {
+            const questsRef = ref(db, 'quests');
+            onValue(questsRef, (snapshot) => {
+                const container = document.getElementById('questsList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🎯</div>
+                            <p>No quests created yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const quests = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = quests.map(q => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div style="flex: 1;">
+                                <strong>${q.title}</strong>
+                                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                                    ${q.type === 'referral' ? '👥 Referral' : '✅ Task'} Quest
+                                </p>
+                                <p style="font-size: 13px; color: var(--primary); margin-top: 4px;">
+                                    🎯 Target: ${q.target} • 🪙 Reward: ${q.reward} GOLD
+                                </p>
+                            </div>
+                            <button class="btn btn-small btn-danger btn-icon" onclick="deleteQuest('${q.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.createQuest = async () => {
+            const title = document.getElementById('questTitle').value.trim();
+            const type = document.getElementById('questType').value;
+            const target = parseInt(document.getElementById('questTarget').value);
+            const reward = parseInt(document.getElementById('questReward').value);
+            const description = document.getElementById('questDescription').value.trim();
+            
+            if (!title || isNaN(target) || target <= 0 || isNaN(reward) || reward <= 0) {
+                showToast('Please fill all fields correctly', 'error');
+                return;
+            }
+            
+            try {
+                await push(ref(db, 'quests'), {
+                    title,
+                    type,
+                    target,
+                    reward,
+                    description,
+                    createdAt: Date.now()
+                });
+                
+                // Clear form
+                document.getElementById('questTitle').value = '';
+                document.getElementById('questTarget').value = '5';
+                document.getElementById('questReward').value = '1000';
+                document.getElementById('questDescription').value = '';
+                
+                showToast('Quest created successfully!', 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error creating quest', 'error');
+            }
+        };
+
+        window.deleteQuest = async (id) => {
+            if (!confirm('Delete this quest?')) return;
+            try {
+                await remove(ref(db, `quests/${id}`));
+                showToast('Quest deleted', 'success');
+            } catch (error) {
+                showToast('Error deleting quest', 'error');
+            }
+        };
+
+        // ==================== GIVEAWAYS ====================
+        function loadGiveaways() {
+            const giveawaysRef = ref(db, 'giveaways');
+            onValue(giveawaysRef, (snapshot) => {
+                const container = document.getElementById('giveawaysList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🎉</div>
+                            <p>No giveaways created yet</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const giveaways = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = giveaways.map(g => {
+                    const isEnded = g.status === 'ended' || (g.endDate && Date.now() > g.endDate);
+                    const timeLeft = g.endDate ? Math.max(0, Math.ceil((g.endDate - Date.now()) / (1000 * 60 * 60 * 24))) : 0;
+                    
+                    return `
+                        <div class="item">
+                            <div class="item-header">
+                                <div style="flex: 1;">
+                                    <strong>${g.title}</strong>
+                                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                                        ${g.description || 'No description'}
+                                    </p>
+                                    <p style="font-size: 13px; margin-top: 8px;">
+                                        🥇 ${g.prize1 || 0} • 🥈 ${g.prize2 || 0} • 🥉 ${g.prize3 || 0} GOLD
+                                    </p>
+                                    <p style="font-size: 12px; color: ${isEnded ? 'var(--danger)' : 'var(--success)'}; margin-top: 4px;">
+                                        ${isEnded ? '🏁 Ended' : `⏰ ${timeLeft} days remaining`}
+                                    </p>
+                                    ${g.winners ? `
+                                        <div style="margin-top: 8px; padding: 8px; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
+                                            <p style="font-size: 12px; color: var(--success);">🏆 Winners:</p>
+                                            ${g.winners.map((w, i) => `<p style="font-size: 11px; color: var(--text-secondary);">${i + 1}. @${w.username || 'User'} - ${w.prize} GOLD</p>`).join('')}
+                                        </div>
+                                    ` : ''}
+                                </div>
+                                <span class="badge ${isEnded ? 'badge-ended' : 'badge-active'}">
+                                    ${isEnded ? 'Ended' : 'Active'}
+                                </span>
+                            </div>
+                            <div class="btn-group">
+                                ${!isEnded ? `
+                                    <button class="btn btn-small btn-warning" onclick="endGiveaway('${g.id}')">
+                                        🏁 End & Pick Winners
+                                    </button>
+                                ` : ''}
+                                <button class="btn btn-small btn-danger" onclick="deleteGiveaway('${g.id}')">🗑️ Delete</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            });
+        }
+
+        window.createGiveaway = async () => {
+            const title = document.getElementById('giveawayTitle').value.trim();
+            const description = document.getElementById('giveawayDescription').value.trim();
+            const duration = parseInt(document.getElementById('giveawayDuration').value);
+            const prize1 = parseInt(document.getElementById('giveawayPrize1').value);
+            const prize2 = parseInt(document.getElementById('giveawayPrize2').value);
+            const prize3 = parseInt(document.getElementById('giveawayPrize3').value);
+            
+            if (!title || isNaN(duration) || duration <= 0) {
+                showToast('Please fill required fields', 'error');
+                return;
+            }
+            
+            try {
+                const endDate = Date.now() + (duration * 24 * 60 * 60 * 1000);
+                
+                await push(ref(db, 'giveaways'), {
+                    title,
+                    description,
+                    prize1: prize1 || 0,
+                    prize2: prize2 || 0,
+                    prize3: prize3 || 0,
+                    endDate,
+                    status: 'active',
+                    createdAt: Date.now()
+                });
+                
+                // Clear form
+                document.getElementById('giveawayTitle').value = '';
+                document.getElementById('giveawayDescription').value = '';
+                document.getElementById('giveawayDuration').value = '7';
+                document.getElementById('giveawayPrize1').value = '10000';
+                document.getElementById('giveawayPrize2').value = '5000';
+                document.getElementById('giveawayPrize3').value = '2500';
+                
+                showToast('Giveaway created successfully!', 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error creating giveaway', 'error');
+            }
+        };
+
+        window.endGiveaway = async (id) => {
+            if (!confirm('End this giveaway and pick winners based on card balance?')) return;
+            
+            try {
+                // Get giveaway data
+                const giveawaySnap = await get(ref(db, `giveaways/${id}`));
+                if (!giveawaySnap.exists()) {
+                    showToast('Giveaway not found', 'error');
+                    return;
+                }
+                const giveaway = giveawaySnap.val();
+                
+                // Get all users sorted by card balance
+                const usersSnap = await get(ref(db, 'users'));
+                if (!usersSnap.exists()) {
+                    showToast('No users found', 'error');
+                    return;
+                }
+                
+                const users = Object.entries(usersSnap.val())
+                    .map(([id, data]) => ({ id, ...data }))
+                    .filter(u => (u.cardBalance || 0) > 0)
+                    .sort((a, b) => (b.cardBalance || 0) - (a.cardBalance || 0))
+                    .slice(0, 3);
+                
+                if (users.length === 0) {
+                    showToast('No eligible users with card balance', 'error');
+                    return;
+                }
+                
+                const prizes = [giveaway.prize1, giveaway.prize2, giveaway.prize3];
+                const winners = [];
+                
+                // Award prizes
+                for (let i = 0; i < Math.min(users.length, 3); i++) {
+                    const user = users[i];
+                    const prize = prizes[i] || 0;
+                    
+                    if (prize > 0) {
+                        await update(ref(db, `users/${user.id}`), {
+                            goldBalance: (user.goldBalance || 0) + prize
+                        });
+                    }
+                    
+                    winners.push({
+                        id: user.id,
+                        username: user.username || 'User',
+                        prize,
+                        cardBalance: user.cardBalance || 0
+                    });
+                }
+                
+                // Update giveaway status
+                await update(ref(db, `giveaways/${id}`), {
+                    status: 'ended',
+                    winners,
+                    endedAt: Date.now()
+                });
+                
+                showToast(`Giveaway ended! ${winners.length} winners awarded`, 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error ending giveaway', 'error');
+            }
+        };
+
+        window.deleteGiveaway = async (id) => {
+            if (!confirm('Delete this giveaway permanently?')) return;
+            try {
+                await remove(ref(db, `giveaways/${id}`));
+                showToast('Giveaway deleted', 'success');
+            } catch (error) {
+                showToast('Error deleting giveaway', 'error');
+            }
+        };
+
+        // ==================== SETTINGS ====================
+        function loadSettings() {
+            get(ref(db, 'admin/settings')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById('minWithdrawal').value = data.minWithdrawal || 1000;
+                    document.getElementById('goldToTonRate').value = data.goldToTonRate || 0.00001;
+                    document.getElementById('goldPerTon').value = data.goldPerTon || 100;
+                    document.getElementById('referralPercentage').value = data.referralPercentage || 10;
+                    document.getElementById('taskPaymentAddress').value = data.taskPaymentAddress || '';
+                    document.getElementById('botApiToken').value = data.botApiToken || '';
+                    document.getElementById('adReward').value = data.adReward || 50;
+                    document.getElementById('dailyAdLimit').value = data.dailyAdLimit || 10;
+                    document.getElementById('dailyCheckReward').value = data.dailyCheckReward || 100;
+                    document.getElementById('dailyCheckChannel').value = data.dailyCheckChannel || '';
+                    document.getElementById('impressionPrice').value = data.impressionPrice || 0.05;
+                    document.getElementById('manifestName').value = data.manifestName || 'MoneyShark';
+                    document.getElementById('manifestUrl').value = data.manifestUrl || '';
+                    document.getElementById('manifestIconUrl').value = data.manifestIconUrl || '';
+                    document.getElementById('themeBackground').value = data.themeColors?.background || '200 50% 10%';
+                    document.getElementById('themePrimary').value = data.themeColors?.primary || '187 94% 43%';
+                    document.getElementById('themeGold').value = data.themeColors?.gold || '45 93% 58%';
+                    document.getElementById('allowTestnet').checked = data.allowTestnet || false;
+                    document.getElementById('gemWithdrawalFee').value = data.gemWithdrawalFee || 5;
+                }
+            }).catch(error => {
+                console.error("Error loading settings:", error);
+            });
+        }
+
+        window.saveSettings = async () => {
+            const settingsData = {
+                minWithdrawal: parseInt(document.getElementById('minWithdrawal').value),
+                goldToTonRate: parseFloat(document.getElementById('goldToTonRate').value),
+                goldPerTon: parseInt(document.getElementById('goldPerTon').value),
+                referralPercentage: parseInt(document.getElementById('referralPercentage').value),
+                taskPaymentAddress: document.getElementById('taskPaymentAddress').value.trim(),
+                botApiToken: document.getElementById('botApiToken').value.trim(),
+                adReward: parseInt(document.getElementById('adReward').value),
+                dailyAdLimit: parseInt(document.getElementById('dailyAdLimit').value),
+                dailyCheckReward: parseInt(document.getElementById('dailyCheckReward').value),
+                dailyCheckChannel: document.getElementById('dailyCheckChannel').value.trim(),
+                impressionPrice: parseFloat(document.getElementById('impressionPrice').value),
+                manifestName: document.getElementById('manifestName').value.trim(),
+                manifestUrl: document.getElementById('manifestUrl').value.trim(),
+                manifestIconUrl: document.getElementById('manifestIconUrl').value.trim(),
+                allowTestnet: document.getElementById('allowTestnet').checked,
+                gemWithdrawalFee: parseInt(document.getElementById('gemWithdrawalFee').value) || 5,
+                themeColors: {
+                    background: document.getElementById('themeBackground').value.trim(),
+                    primary: document.getElementById('themePrimary').value.trim(),
+                    gold: document.getElementById('themeGold').value.trim()
+                }
+            };
+            
+            if (window.currentAdminList) {
+                settingsData.adminList = window.currentAdminList;
+            }
+
+            try {
+                await set(ref(db, 'admin/settings'), settingsData);
+                showToast('All settings saved!', 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error saving settings', 'error');
+            }
+        };
+
+        // ==================== LUCKY CODES ====================
+        function loadLuckyCodes() {
+            const codesRef = ref(db, 'luckyCodes');
+            onValue(codesRef, (snapshot) => {
+                const container = document.getElementById('luckyCodesList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">🎁</div>
+                            <p>No lucky codes created</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const codes = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = codes.map(c => {
+                    const icons = { gold: '🪙', key: '🔑', gem: '💎', card: '🎴' };
+                    const rewardIcon = icons[c.rewardType] || '🪙';
+                    const isExpired = c.expiryTime && new Date(c.expiryTime) < new Date();
+                    
+                    return `
+                        <div class="item">
+                            <div class="item-header">
+                                <div style="flex: 1;">
+                                    <strong>${c.title}</strong>
+                                    <p style="font-size: 14px; color: var(--gold); margin-top: 4px; font-family: monospace;">
+                                        ${c.code}
+                                    </p>
+                                    <p style="font-size: 13px; color: var(--primary); margin-top: 4px;">
+                                        ${rewardIcon} +${c.reward}
+                                    </p>
+                                    ${c.expiryTime ? `
+                                        <p style="font-size: 11px; color: ${isExpired ? 'var(--danger)' : 'var(--text-muted)'}; margin-top: 4px;">
+                                            ⏰ ${isExpired ? 'Expired' : 'Expires'}: ${new Date(c.expiryTime).toLocaleString()}
+                                        </p>
+                                    ` : ''}
+                                </div>
+                                <button class="btn btn-small btn-danger btn-icon" onclick="deleteLuckyCode('${c.code}')">🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            });
+        }
+
+        window.createLuckyCode = async () => {
+            const title = document.getElementById('luckyCodeTitle').value.trim();
+            const code = document.getElementById('luckyCode').value.trim().toUpperCase();
+            const reward = parseInt(document.getElementById('luckyCodeReward').value);
+            const rewardType = document.getElementById('luckyCodeType').value;
+            const expiryInput = document.getElementById('luckyCodeExpiry').value;
+            
+            if (!title || !code || isNaN(reward) || reward <= 0) {
+                showToast('Please fill all fields correctly', 'error');
+                return;
+            }
+            
+            const codeData = {
+                title,
+                code,
+                reward,
+                rewardType,
+                createdAt: Date.now()
+            };
+            
+            if (expiryInput) {
+                codeData.expiryTime = new Date(expiryInput).getTime();
+            }
+            
+            try {
+                await set(ref(db, `luckyCodes/${code}`), codeData);
+                
+                document.getElementById('luckyCodeTitle').value = '';
+                document.getElementById('luckyCode').value = '';
+                document.getElementById('luckyCodeReward').value = '500';
+                document.getElementById('luckyCodeExpiry').value = '';
+                
+                showToast('Lucky code created!', 'success');
+            } catch (error) {
+                console.error("Error:", error);
+                showToast('Error creating lucky code', 'error');
+            }
+        };
+
+        window.deleteLuckyCode = async (code) => {
+            if (!confirm(`Delete code "${code}"?`)) return;
+            try {
+                await remove(ref(db, `luckyCodes/${code}`));
+                showToast('Lucky code deleted', 'success');
+            } catch (error) {
+                showToast('Error deleting code', 'error');
+            }
+        };
+
+        // ==================== GIFT SETTINGS ====================
+        let giftRewards = [];
+        
+        function loadGiftSettings() {
+            get(ref(db, 'admin/settings/giftSettings')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById('giftKeyCost').value = data.keyCost || 1;
+                    giftRewards = data.rewards || [];
+                } else {
+                    giftRewards = [
+                        { amount: 100, probability: 40 },
+                        { amount: 500, probability: 30 },
+                        { amount: 1000, probability: 20 },
+                        { amount: 5000, probability: 9 },
+                        { amount: 10000, probability: 1 }
+                    ];
+                }
+                renderGiftRewards();
+            });
+        }
+        
+        function renderGiftRewards() {
+            const container = document.getElementById('giftRewardsList');
+            if (giftRewards.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">No reward tiers configured</p>';
+                return;
+            }
+            
+            const totalProb = giftRewards.reduce((sum, r) => sum + r.probability, 0);
+            
+            container.innerHTML = giftRewards.map((r, idx) => `
+                <div class="item" style="margin-bottom: 8px;">
+                    <div class="item-header" style="margin-bottom: 0;">
+                        <div>
+                            <strong style="color: var(--gold);">🪙 ${r.amount} GOLD</strong>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+                                📊 ${r.probability}% chance
+                            </p>
+                        </div>
+                        <button class="btn btn-small btn-danger btn-icon" onclick="removeGiftReward(${idx})">🗑️</button>
+                    </div>
+                </div>
+            `).join('');
+            
+            if (Math.abs(totalProb - 100) > 0.1) {
+                container.innerHTML += `
+                    <div class="alert alert-error" style="margin-top: 12px;">
+                        ⚠️ Total probability is ${totalProb.toFixed(1)}% (should be 100%)
+                    </div>
+                `;
+            }
+        }
+        
+        window.addGiftReward = () => {
+            const amount = parseInt(document.getElementById('newGiftAmount').value);
+            const probability = parseFloat(document.getElementById('newGiftProbability').value);
+            
+            if (isNaN(amount) || amount <= 0 || isNaN(probability) || probability <= 0) {
+                showToast('Enter valid amount and probability', 'error');
+                return;
+            }
+            
+            giftRewards.push({ amount, probability });
+            giftRewards.sort((a, b) => a.amount - b.amount);
+            
+            document.getElementById('newGiftAmount').value = '';
+            document.getElementById('newGiftProbability').value = '';
+            renderGiftRewards();
+            showToast('Reward tier added', 'success');
+        };
+        
+        window.removeGiftReward = (index) => {
+            if (!confirm('Remove this tier?')) return;
+            giftRewards.splice(index, 1);
+            renderGiftRewards();
+        };
+        
+        window.saveGiftSettings = async () => {
+            const keyCost = parseInt(document.getElementById('giftKeyCost').value);
+            
+            if (isNaN(keyCost) || keyCost <= 0) {
+                showToast('Enter valid key cost', 'error');
+                return;
+            }
+            
+            try {
+                await set(ref(db, 'admin/settings/giftSettings'), {
+                    keyCost,
+                    rewards: giftRewards
+                });
+                showToast('Gift settings saved!', 'success');
+            } catch (error) {
+                showToast('Error saving gift settings', 'error');
+            }
+        };
+
+        // ==================== ADMINS ====================
+        function loadAdmins() {
+            get(ref(db, 'admin/settings/adminList')).then((snapshot) => {
+                const container = document.getElementById('adminsList');
+                const admins = snapshot.exists() ? snapshot.val() : [8101021767, 7323645947];
+                window.currentAdminList = admins;
+                
+                container.innerHTML = admins.map(id => `
+                    <div class="item" style="margin-bottom: 8px;">
+                        <div class="item-header" style="margin-bottom: 0;">
+                            <div>
+                                <strong style="font-family: monospace;">${id}</strong>
+                                ${(id === 8101021767 || id === 7323645947) ? 
+                                    '<span class="badge badge-active" style="margin-left: 8px;">👑 Main Admin</span>' : 
+                                    ''
+                                }
+                            </div>
+                            ${(id !== 8101021767 && id !== 7323645947) ? `
+                                <button class="btn btn-small btn-danger btn-icon" onclick="removeAdmin(${id})">🗑️</button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.addAdmin = async () => {
+            const idInput = document.getElementById('newAdminId');
+            const id = parseInt(idInput.value);
+            
+            if (!id || id <= 0) {
+                showToast('Enter valid Telegram ID', 'error');
+                return;
+            }
+            
+            const currentAdmins = window.currentAdminList || [8101021767, 7323645947];
+            
+            if (currentAdmins.includes(id)) {
+                showToast('Admin already exists', 'error');
+                return;
+            }
+            
+            try {
+                const newList = [...currentAdmins, id];
+                await set(ref(db, 'admin/settings/adminList'), newList);
+                window.currentAdminList = newList;
+                idInput.value = '';
+                loadAdmins();
+                showToast('Admin added!', 'success');
+            } catch (error) {
+                showToast('Error adding admin', 'error');
+            }
+        };
+
+        window.removeAdmin = async (id) => {
+            if (!confirm(`Remove admin ${id}?`)) return;
+            
+            const currentAdmins = window.currentAdminList || [];
+            const newList = currentAdmins.filter(a => a !== id);
+
+            try {
+                await set(ref(db, 'admin/settings/adminList'), newList);
+                window.currentAdminList = newList;
+                loadAdmins();
+                showToast('Admin removed', 'success');
+            } catch (error) {
+                showToast('Error removing admin', 'error');
+            }
+        };
+    </script>
+</body>
+</html>
