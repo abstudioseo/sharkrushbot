@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Maney Frog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a2f1f 0%, #051510 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: rgba(20, 50, 35, 0.8);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .shield-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+
+        h1 {
+            color: #22c55e;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #d1d5db;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #22c55e;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: rgba(34, 197, 94, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(20, 50, 35, 0.8);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(20, 50, 35, 0.5);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border-color: #22c55e;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: rgba(20, 50, 35, 0.8);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #22c55e;
+        }
+
+        .card-subtitle {
+            color: #9ca3af;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .item {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-pending {
+            background: rgba(234, 179, 8, 0.2);
+            color: #facc15;
+        }
+
+        .badge-approved {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        .badge-rejected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 14px;
+            width: auto;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+
+        .spinner {
+            border: 4px solid rgba(34, 197, 94, 0.2);
+            border-top: 4px solid #22c55e;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .help-text {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="shield-icon">🛡️</div>
+                <h1>Admin Login</h1>
+                <p class="subtitle">Enter your credentials to access the admin panel</p>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>📧 Email</label>
+                    <input type="email" id="loginEmail" placeholder="admin@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>🔒 Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn" id="loginBtn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+        <div class="dashboard">
+            <div class="header">
+                <div class="header-left">
+                    <div class="header-icon">🛡️</div>
+                    <div>
+                        <h2>Admin Panel</h2>
+                        <p class="subtitle">Web Management</p>
+                    </div>
+                </div>
+                <button class="btn btn-small" onclick="logout()">🚪 Logout</button>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('withdrawals')">💰 Withdrawals</div>
+                <div class="tab" onclick="switchTab('tasks')">📋 Tasks</div>
+                <div class="tab" onclick="switchTab('settings')">⚙️ Settings</div>
+                <div class="tab" onclick="switchTab('luckycodes')">🎁 Lucky Codes</div>
+                <div class="tab" onclick="switchTab('gifts')">🎁 Gifts</div>
+                <div class="tab" onclick="switchTab('admins')">👥 Admins</div>
+            </div>
+
+            <!-- Withdrawals Tab -->
+            <div id="withdrawals" class="tab-content active">
+                <div class="card">
+                    <h3 class="card-header">Recent Withdrawals</h3>
+                    <p class="card-subtitle">Manage pending withdrawal requests</p>
+                </div>
+                <div id="withdrawalsList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading withdrawals...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Tab -->
+            <div id="tasks" class="tab-content">
+                <div class="card">
+                    <h3 class="card-header">Create New Task</h3>
+                    <div class="form-group">
+                        <label>Task Title</label>
+                        <input type="text" id="taskTitle" placeholder="Enter task title">
+                    </div>
+                    <div class="form-group">
+                        <label>Task Description</label>
+                        <textarea id="taskDesc" rows="3" placeholder="Enter task description"></textarea>
+                    </div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Task Type</label>
+                            <select id="taskType">
+                                <option value="link">Direct Link</option>
+                                <option value="telegram">Telegram Channel</option>
+                                <option value="code">Code Task</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Reward (GOLD)</label>
+                            <input type="number" id="taskReward" value="100" placeholder="100">
+                        </div>
+                        <div class="form-group">
+                            <label>Impressions</label>
+                            <input type="number" id="taskImpressions" value="1000" placeholder="1000">
+                            <p class="help-text">Number of times task will be shown</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Task Link</label>
+                        <input type="url" id="taskLink" placeholder="https://example.com">
+                    </div>
+                    <div class="form-group" id="taskCodeGroup" style="display: none;">
+                        <label>Required Code</label>
+                        <input type="text" id="taskCode" placeholder="Enter code">
+                    </div>
+                    <button class="btn" onclick="createTask()">➕ Create Task</button>
+                </div>
+                <div id="tasksList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading tasks...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <!-- Currency & Rewards -->
+                <div class="card">
+                    <h3 class="card-header">💰 Currency & Rewards</h3>
+                    <p class="card-subtitle">Configure GOLD and TON conversion rates</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>GOLD per TON</label>
+                            <input type="number" id="goldPerTon" placeholder="100">
+                            <p class="help-text">How much GOLD = 1 TON</p>
+                        </div>
+                        <div class="form-group">
+                            <label>TON per GOLD</label>
+                            <input type="number" step="0.000001" id="goldToTonRate" placeholder="0.00001">
+                            <p class="help-text">1 GOLD = X TON</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Minimum Withdrawal (GOLD)</label>
+                            <input type="number" id="minWithdrawal" placeholder="1000">
+                            <p class="help-text">Minimum amount to withdraw</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Referral Percentage (%)</label>
+                            <input type="number" id="referralPercentage" placeholder="10">
+                            <p class="help-text">Commission for referrers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Settings -->
+                <div class="card">
+                    <h3 class="card-header">🎯 Task Settings</h3>
+                    <p class="card-subtitle">Configure task creation and pricing</p>
+                    <div class="form-group">
+                        <label>Task Creation Payment Address (TON)</label>
+                        <input type="text" id="taskPaymentAddress" placeholder="UQ...">
+                        <p class="help-text">TON wallet for task payments</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Impression Price (TON per 100 impressions)</label>
+                        <input type="number" step="0.01" id="impressionPrice" placeholder="0.05">
+                        <p class="help-text">Cost per 100 task views</p>
+                    </div>
+                </div>
+
+                <!-- Ads & Daily Rewards -->
+                <div class="card">
+                    <h3 class="card-header">📺 Ads & Daily Rewards</h3>
+                    <p class="card-subtitle">Configure advertising and check-in rewards</p>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Ad Reward (GOLD)</label>
+                            <input type="number" id="adReward" placeholder="50">
+                            <p class="help-text">GOLD per ad watched</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Daily Ad Limit</label>
+                            <input type="number" id="dailyAdLimit" placeholder="10">
+                            <p class="help-text">Max ads per user per day</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Daily Check-in Reward (GOLD)</label>
+                            <input type="number" id="dailyCheckReward" placeholder="100">
+                            <p class="help-text">Daily reward for checking in</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Daily Check-in Channel Link</label>
+                            <input type="url" id="dailyCheckChannel" placeholder="https://t.me/your_channel">
+                            <p class="help-text">Telegram channel link</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bot Configuration -->
+                <div class="card">
+                    <h3 class="card-header">🤖 Bot Configuration</h3>
+                    <p class="card-subtitle">Telegram bot settings for notifications</p>
+                    <div class="form-group">
+                        <label>Bot API Token</label>
+                        <input type="text" id="botApiToken" placeholder="1234567890:ABC...">
+                        <p class="help-text">Telegram Bot API token</p>
+                    </div>
+                </div>
+
+                <!-- TON Connect Manifest -->
+                <div class="card">
+                    <h3 class="card-header">🔗 TON Connect Manifest</h3>
+                    <p class="card-subtitle">Configure TON wallet connection</p>
+                    <div class="form-group">
+                        <label>App Name</label>
+                        <input type="text" id="manifestName" placeholder="Maney Frog">
+                    </div>
+                    <div class="form-group">
+                        <label>App URL</label>
+                        <input type="url" id="manifestUrl" placeholder="https://maneyfrog.app">
+                    </div>
+                    <div class="form-group">
+                        <label>Icon URL</label>
+                        <input type="url" id="manifestIconUrl" placeholder="https://maneyfrog.app/icon.png">
+                    </div>
+                </div>
+
+                <!-- Theme Colors -->
+                <div class="card">
+                    <h3 class="card-header">🎨 Theme Colors</h3>
+                    <p class="card-subtitle">Customize app appearance (HSL format)</p>
+                    <div class="form-group">
+                        <label>Background Color</label>
+                        <input type="text" id="themeBackground" placeholder="142 70% 8%">
+                        <p class="help-text">Format: H S% L%</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Primary Color</label>
+                        <input type="text" id="themePrimary" placeholder="142 76% 45%">
+                        <p class="help-text">Main brand color</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Gold/Accent Color</label>
+                        <input type="text" id="themeGold" placeholder="45 93% 58%">
+                        <p class="help-text">Currency highlight color</p>
+                    </div>
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="allowTestnet" style="width: auto;">
+                            Allow Testnet
+                        </label>
+                        <p class="help-text">Enable testnet for testing</p>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="saveSettings()">💾 Save All Settings</button>
+            </div>
+
+            <!-- Lucky Codes Tab -->
+            <div id="luckycodes" class="tab-content">
+                <div class="card">
+                    <h3 class="card-header">Create Lucky Code</h3>
+                    <div class="form-group">
+                        <label>Code Title</label>
+                        <input type="text" id="luckyCodeTitle" placeholder="Welcome Bonus">
+                    </div>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input type="text" id="luckyCode" placeholder="WELCOME2024" style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                            <label>Reward Type</label>
+                            <select id="luckyCodeType">
+                                <option value="gold">🪙 Gold</option>
+                                <option value="key">🔑 Key</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Reward Amount</label>
+                            <input type="number" id="luckyCodeReward" value="500" placeholder="500">
+                        </div>
+                        <div class="form-group">
+                            <label>Expiration Time (optional)</label>
+                            <input type="datetime-local" id="luckyCodeExpiry">
+                            <p class="help-text">Leave empty for no expiration</p>
+                        </div>
+                    </div>
+                    <button class="btn" onclick="createLuckyCode()">➕ Add Lucky Code</button>
+                </div>
+                <div id="luckyCodesList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading lucky codes...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gifts Tab -->
+            <div id="gifts" class="tab-content">
+                <div class="card">
+                    <h3 class="card-header">🎁 Gift/Treasure Settings</h3>
+                    <p class="card-subtitle">Configure treasure chest rewards</p>
+                    <div class="form-group">
+                        <label>Gift Opening Cost (Keys)</label>
+                        <input type="number" id="giftKeyCost" value="1" placeholder="1">
+                        <p class="help-text">Number of keys required to open gift</p>
+                    </div>
+                    <h4 style="color: #22c55e; margin: 20px 0 10px;">Reward Tiers</h4>
+                    <div id="giftRewardsList"></div>
+                    <div class="card" style="background: rgba(0, 0, 0, 0.2); margin-top: 20px;">
+                        <h4 style="color: #22c55e; margin-bottom: 15px;">Add New Reward</h4>
+                        <div class="grid">
+                            <div class="form-group">
+                                <label>Reward Amount (GOLD)</label>
+                                <input type="number" id="newGiftAmount" placeholder="100">
+                            </div>
+                            <div class="form-group">
+                                <label>Probability (%)</label>
+                                <input type="number" step="0.1" id="newGiftProbability" placeholder="10">
+                            </div>
+                        </div>
+                        <button class="btn" onclick="addGiftReward()">➕ Add Reward</button>
+                    </div>
+                    <button class="btn" style="margin-top: 20px;" onclick="saveGiftSettings()">💾 Save Gift Settings</button>
+                </div>
+            </div>
+
+            <!-- Admins Tab -->
+            <div id="admins" class="tab-content">
+                <div class="card">
+                    <h3 class="card-header">Add Admin</h3>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="newAdminId" placeholder="Telegram ID" style="flex: 1;">
+                        <button class="btn btn-small" onclick="addAdmin()">➕ Add</button>
+                    </div>
+                </div>
+                <div id="adminsList">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading admins...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+        import { getDatabase, ref, onValue, push, set, remove, get, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+
+        // Firebase configuration
+     const firebaseConfig = {
+  apiKey: "AIzaSyACdtwiQdtTgf7dQc9Db8NXVMHvFtCZgNM",
+  authDomain: "shark-rush.firebaseapp.com",
+  projectId: "shark-rush",
+  storageBucket: "shark-rush.firebasestorage.app",
+  messagingSenderId: "463097193166",
+  appId: "1:463097193166:web:5c4175eeb51b74e1b4269f"
+};
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Make functions global
+        window.db = db;
+        window.auth = auth;
+        window.firebaseRef = ref;
+        window.firebaseSet = set;
+        window.firebasePush = push;
+        window.firebaseRemove = remove;
+        window.firebaseGet = get;
+        window.firebaseUpdate = update;
+        window.firebaseOnValue = onValue;
+
+        // Auth state
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.email === 'abcoinseo@gmail.com') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                loadData();
+            } else {
+                document.getElementById('loginScreen').classList.remove('hidden');
+                document.getElementById('dashboard').classList.add('hidden');
+            }
+        });
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const btn = document.getElementById('loginBtn');
+            
+            btn.disabled = true;
+            btn.textContent = 'Logging in...';
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                if (userCredential.user.email !== 'abcoinseo@gmail.com') {
+                    await signOut(auth);
+                    showAlert('Unauthorized access', 'error');
+                } else {
+                    showAlert('Login successful!', 'success');
+                }
+            } catch (error) {
+                let msg = 'Invalid credentials';
+                if (error.code === 'auth/user-not-found') msg = 'No account found';
+                else if (error.code === 'auth/wrong-password') msg = 'Incorrect password';
+                else if (error.code === 'auth/too-many-requests') msg = 'Too many attempts';
+                showAlert(msg, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Login';
+            }
+        });
+
+        // Logout
+        window.logout = async () => {
+            await signOut(auth);
+            showAlert('Logged out successfully', 'success');
+        };
+
+        // Load data
+        function loadData() {
+            loadWithdrawals();
+            loadTasks();
+            loadSettings();
+            loadLuckyCodes();
+            loadGiftSettings();
+            loadAdmins();
+        }
+
+        // Withdrawals
+        function loadWithdrawals() {
+            const withdrawalsRef = ref(db, 'withdrawals');
+            onValue(withdrawalsRef, (snapshot) => {
+                const container = document.getElementById('withdrawalsList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="card"><p style="text-align: center; color: #9ca3af;">No withdrawal requests</p></div>';
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const withdrawals = Object.entries(data)
+                    .map(([id, val]) => ({ id, ...val }))
+                    .filter(w => w.status === 'pending') // Only show pending withdrawals
+                    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
+                    .slice(0, 100);
+                
+                if (withdrawals.length === 0) {
+                    container.innerHTML = '<div class="card"><p style="text-align: center; color: #9ca3af;">No pending withdrawal requests</p></div>';
+                    return;
+                }
+
+                container.innerHTML = withdrawals.map(w => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <strong>@${w.username || 'N/A'}</strong>
+                                <p style="font-size: 12px; color: #9ca3af;">
+                                    ${w.createdAt ? new Date(w.createdAt).toLocaleString() : 'Unknown date'}
+                                </p>
+                            </div>
+                            <span class="badge badge-${w.status}">${w.status}</span>
+                        </div>
+                        <div style="margin-bottom: 12px; font-size: 14px;">
+                            <p><strong>Amount:</strong> ${w.goldAmount} GOLD ≈ ${w.tonAmount ? w.tonAmount.toFixed(6) : 'N/A'} TON</p>
+                            <p style="font-size: 12px; color: #9ca3af; word-break: break-all;">Address: ${w.tonAddress || 'N/A'}</p>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-small" onclick="approveWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
+                                ✅ Approve
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="rejectWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
+                                ❌ Reject
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.approveWithdrawal = async (id, withdrawal) => {
+            const txHash = prompt(`Enter transaction hash/link for withdrawal ID ${id}:`);
+            if (!txHash) return;
+            
+            try {
+                await update(ref(db, `withdrawals/${id}`), {
+                    status: 'approved',
+                    transactionHash: txHash,
+                    processedAt: Date.now()
+                });
+                
+                // Send bot notification
+                const settingsSnapshot = await get(ref(db, 'admin/settings'));
+                if (settingsSnapshot.exists()) {
+                    const settings = settingsSnapshot.val();
+                    if (settings.botApiToken && (withdrawal.userId || withdrawal.chatId)) {
+                        const message = `✅ Your withdrawal has been approved!\n\n💰 Amount: ${withdrawal.goldAmount} GOLD → ${withdrawal.tonAmount ? withdrawal.tonAmount.toFixed(6) : 'N/A'} TON\n🔗 Transaction: ${txHash}`;
+                        
+                        await fetch(`https://api.telegram.org/bot${settings.botApiToken}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                chat_id: withdrawal.userId || withdrawal.chatId,
+                                text: message,
+                                parse_mode: 'HTML' // Optional: for richer formatting
+                            })
+                        });
+                    }
+                }
+                
+                showAlert('Withdrawal approved!', 'success');
+                // Re-fetch to remove the approved item from the pending list
+                loadWithdrawals(); 
+            } catch (error) {
+                console.error("Error approving withdrawal:", error);
+                showAlert('Error approving withdrawal', 'error');
+            }
+        };
+
+        window.rejectWithdrawal = async (id, withdrawal) => {
+            const reason = prompt(`Enter rejection reason for withdrawal ID ${id}:`);
+            if (!reason) return;
+            
+            try {
+                const userId = withdrawal.userId || withdrawal.chatId;
+                if (userId) {
+                    const userRef = ref(db, `users/${userId}`);
+                    const userSnap = await get(userRef);
+                    
+                    if (userSnap.exists()) {
+                        const balance = userSnap.val().goldBalance || 0;
+                        await update(userRef, {
+                            goldBalance: balance + withdrawal.goldAmount
+                        });
+                    }
+                    
+                    // Send bot notification
+                    const settingsSnapshot = await get(ref(db, 'admin/settings'));
+                    if (settingsSnapshot.exists()) {
+                        const settings = settingsSnapshot.val();
+                        if (settings.botApiToken) {
+                            const message = `❌ Your withdrawal request has been rejected.\n\n💰 Amount: ${withdrawal.goldAmount} GOLD (refunded)\n📝 Reason: ${reason}`;
+                            
+                            await fetch(`https://api.telegram.org/bot${settings.botApiToken}/sendMessage`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    chat_id: userId,
+                                    text: message,
+                                    parse_mode: 'HTML'
+                                })
+                            });
+                        }
+                    }
+                }
+                
+                await update(ref(db, `withdrawals/${id}`), {
+                    status: 'rejected',
+                    rejectReason: reason,
+                    processedAt: Date.now()
+                });
+                
+                showAlert('Withdrawal rejected and refunded!', 'success');
+                // Re-fetch to remove the rejected item from the pending list
+                loadWithdrawals(); 
+            } catch (error) {
+                console.error("Error rejecting withdrawal:", error);
+                showAlert('Error rejecting withdrawal', 'error');
+            }
+        };
+
+        // Tasks
+        document.getElementById('taskType').addEventListener('change', (e) => {
+            document.getElementById('taskCodeGroup').style.display = 
+                e.target.value === 'code' ? 'block' : 'none';
+        });
+
+        function loadTasks() {
+            const tasksRef = ref(db, 'tasks');
+            onValue(tasksRef, (snapshot) => {
+                const container = document.getElementById('tasksList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="card"><p style="text-align: center; color: #9ca3af;">No tasks created</p></div>';
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const tasks = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = tasks.map(t => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <strong>${t.title}</strong>
+                                <p style="font-size: 13px; color: #9ca3af; margin-top: 4px;">${t.description}</p>
+                                <p style="font-size: 14px; color: #facc15; margin-top: 8px;">+${t.reward} GOLD</p>
+                                <p style="font-size: 12px; color: #9ca3af; margin-top: 4px;">👁️ ${t.completedImpressions || 0} / ${t.impressions || 0} impressions</p>
+                            </div>
+                            <button class="btn btn-small btn-danger" onclick="deleteTask('${t.id}')">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.createTask = async () => {
+            const title = document.getElementById('taskTitle').value.trim();
+            const desc = document.getElementById('taskDesc').value.trim();
+            const type = document.getElementById('taskType').value;
+            const reward = parseInt(document.getElementById('taskReward').value);
+            const impressions = parseInt(document.getElementById('taskImpressions').value);
+            const link = document.getElementById('taskLink').value.trim();
+            const code = document.getElementById('taskCode').value.trim();
+            
+            if (!title || !desc || !link || isNaN(reward) || reward <= 0 || isNaN(impressions) || impressions <= 0) {
+                showAlert('Please fill all fields correctly (Title, Description, Link, Reward, and Impressions)', 'error');
+                return;
+            }
+            if (type === 'code' && !code) {
+                showAlert('Please enter the required code for Code Task', 'error');
+                return;
+            }
+            
+            try {
+                await push(ref(db, 'tasks'), {
+                    title,
+                    description: desc,
+                    type,
+                    reward,
+                    impressions,
+                    completedImpressions: 0,
+                    link,
+                    code: type === 'code' ? code : null,
+                    createdAt: Date.now(),
+                    active: true
+                });
+                
+                document.getElementById('taskTitle').value = '';
+                document.getElementById('taskDesc').value = '';
+                document.getElementById('taskLink').value = '';
+                document.getElementById('taskCode').value = '';
+                document.getElementById('taskReward').value = '100';
+                document.getElementById('taskImpressions').value = '1000';
+                document.getElementById('taskType').value = 'link';
+                document.getElementById('taskCodeGroup').style.display = 'none';
+                showAlert('Task created!', 'success');
+            } catch (error) {
+                console.error("Error creating task:", error);
+                showAlert('Error creating task', 'error');
+            }
+        };
+
+        window.deleteTask = async (id) => {
+            if (!confirm('Are you sure you want to delete this task?')) return;
+            try {
+                await remove(ref(db, `tasks/${id}`));
+                showAlert('Task deleted!', 'success');
+            } catch (error) {
+                console.error("Error deleting task:", error);
+                showAlert('Error deleting task', 'error');
+            }
+        };
+
+        // Settings
+        function loadSettings() {
+            get(ref(db, 'admin/settings')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById('minWithdrawal').value = data.minWithdrawal || 1000;
+                    document.getElementById('goldToTonRate').value = data.goldToTonRate || 0.00001;
+                    document.getElementById('goldPerTon').value = data.goldPerTon || 100;
+                    document.getElementById('referralPercentage').value = data.referralPercentage || 10;
+                    document.getElementById('taskPaymentAddress').value = data.taskPaymentAddress || '';
+                    document.getElementById('botApiToken').value = data.botApiToken || '';
+                    document.getElementById('adReward').value = data.adReward || 50;
+                    document.getElementById('dailyAdLimit').value = data.dailyAdLimit || 10;
+                    document.getElementById('dailyCheckReward').value = data.dailyCheckReward || 100;
+                    document.getElementById('dailyCheckChannel').value = data.dailyCheckChannel || '';
+                    document.getElementById('impressionPrice').value = data.impressionPrice || 0.05;
+                    document.getElementById('manifestName').value = data.manifestName || 'Maney Frog';
+                    document.getElementById('manifestUrl').value = data.manifestUrl || '';
+                    document.getElementById('manifestIconUrl').value = data.manifestIconUrl || '';
+                    document.getElementById('themeBackground').value = data.themeColors?.background || '142 70% 8%';
+                    document.getElementById('themePrimary').value = data.themeColors?.primary || '142 76% 45%';
+                    document.getElementById('themeGold').value = data.themeColors?.gold || '45 93% 58%';
+                    document.getElementById('allowTestnet').checked = data.allowTestnet || false;
+                } else {
+                    // Set default values if no settings exist yet
+                    document.getElementById('minWithdrawal').value = 1000;
+                    document.getElementById('goldToTonRate').value = 0.00001;
+                    document.getElementById('goldPerTon').value = 100;
+                    document.getElementById('referralPercentage').value = 10;
+                    document.getElementById('adReward').value = 50;
+                    document.getElementById('dailyAdLimit').value = 10;
+                    document.getElementById('dailyCheckReward').value = 100;
+                    document.getElementById('impressionPrice').value = 0.05;
+                    document.getElementById('manifestName').value = 'Maney Frog';
+                    document.getElementById('themeBackground').value = '142 70% 8%';
+                    document.getElementById('themePrimary').value = '142 76% 45%';
+                    document.getElementById('themeGold').value = '45 93% 58%';
+                }
+            }).catch(error => {
+                console.error("Error loading settings:", error);
+                showAlert('Error loading settings', 'error');
+            });
+        }
+
+        window.saveSettings = async () => {
+            const settingsData = {
+                minWithdrawal: parseInt(document.getElementById('minWithdrawal').value),
+                goldToTonRate: parseFloat(document.getElementById('goldToTonRate').value),
+                goldPerTon: parseInt(document.getElementById('goldPerTon').value),
+                referralPercentage: parseInt(document.getElementById('referralPercentage').value),
+                taskPaymentAddress: document.getElementById('taskPaymentAddress').value.trim(),
+                botApiToken: document.getElementById('botApiToken').value.trim(),
+                adReward: parseInt(document.getElementById('adReward').value),
+                dailyAdLimit: parseInt(document.getElementById('dailyAdLimit').value),
+                dailyCheckReward: parseInt(document.getElementById('dailyCheckReward').value),
+                dailyCheckChannel: document.getElementById('dailyCheckChannel').value.trim(),
+                impressionPrice: parseFloat(document.getElementById('impressionPrice').value),
+                manifestName: document.getElementById('manifestName').value.trim(),
+                manifestUrl: document.getElementById('manifestUrl').value.trim(),
+                manifestIconUrl: document.getElementById('manifestIconUrl').value.trim(),
+                allowTestnet: document.getElementById('allowTestnet').checked,
+                themeColors: {
+                    background: document.getElementById('themeBackground').value.trim(),
+                    primary: document.getElementById('themePrimary').value.trim(),
+                    gold: document.getElementById('themeGold').value.trim()
+                }
+            };
+
+            // Basic validation for numerical fields
+            if (isNaN(settingsData.minWithdrawal) || settingsData.minWithdrawal <= 0 ||
+                isNaN(settingsData.goldToTonRate) || settingsData.goldToTonRate < 0 ||
+                isNaN(settingsData.goldPerTon) || settingsData.goldPerTon <= 0 ||
+                isNaN(settingsData.referralPercentage) || settingsData.referralPercentage < 0 || settingsData.referralPercentage > 100 ||
+                isNaN(settingsData.adReward) || settingsData.adReward < 0 ||
+                isNaN(settingsData.dailyAdLimit) || settingsData.dailyAdLimit < 0 ||
+                isNaN(settingsData.dailyCheckReward) || settingsData.dailyCheckReward < 0 ||
+                isNaN(settingsData.impressionPrice) || settingsData.impressionPrice < 0) {
+                showAlert('Please enter valid numbers for monetary and percentage fields.', 'error');
+                return;
+            }
+            
+            // Ensure adminList is present, even if empty
+            if (!window.currentAdminList) {
+                window.currentAdminList = [8101021767, 7323645947]; // Default fallback
+            }
+            settingsData.adminList = window.currentAdminList;
+
+            try {
+                await set(ref(db, 'admin/settings'), settingsData);
+                showAlert('Settings saved!', 'success');
+            } catch (error) {
+                console.error("Error saving settings:", error);
+                showAlert('Error saving settings', 'error');
+            }
+        };
+
+        // Lucky Codes
+        function loadLuckyCodes() {
+            const codesRef = ref(db, 'luckyCodes');
+            onValue(codesRef, (snapshot) => {
+                const container = document.getElementById('luckyCodesList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="card"><p style="text-align: center; color: #9ca3af;">No lucky codes created</p></div>';
+                    return;
+                }
+                
+                const data = snapshot.val();
+                const codes = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = codes.map(c => {
+                    const rewardIcon = c.rewardType === 'key' ? '🔑' : '🪙';
+                    const rewardText = c.rewardType === 'key' ? 'Key' : 'GOLD';
+                    const expiryText = c.expiryTime ? 
+                        `<p style="font-size: 12px; color: ${new Date(c.expiryTime) < new Date() ? '#ef4444' : '#9ca3af'}; margin-top: 4px;">
+                            ⏰ Expires: ${new Date(c.expiryTime).toLocaleString()}
+                        </p>` : '';
+                    
+                    return `
+                        <div class="item">
+                            <div class="item-header">
+                                <div>
+                                    <strong>${c.title}</strong>
+                                    <p style="font-size: 14px; color: #facc15; margin-top: 4px;">Code: ${c.code}</p>
+                                    <p style="font-size: 13px; color: #9ca3af; margin-top: 4px;">${rewardIcon} +${c.reward} ${rewardText}</p>
+                                    ${expiryText}
+                                </div>
+                                <button class="btn btn-small btn-danger" onclick="deleteLuckyCode('${c.code}')">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            });
+        }
+
+        window.createLuckyCode = async () => {
+            const title = document.getElementById('luckyCodeTitle').value.trim();
+            const code = document.getElementById('luckyCode').value.trim().toUpperCase();
+            const reward = parseInt(document.getElementById('luckyCodeReward').value);
+            const rewardType = document.getElementById('luckyCodeType').value;
+            const expiryInput = document.getElementById('luckyCodeExpiry').value;
+            
+            if (!title || !code || isNaN(reward) || reward <= 0) {
+                showAlert('Please fill all fields correctly (Title, Code, and valid Reward)', 'error');
+                return;
+            }
+            
+            const codeData = {
+                title,
+                code,
+                reward,
+                rewardType,
+                createdAt: Date.now()
+            };
+            
+            if (expiryInput) {
+                codeData.expiryTime = new Date(expiryInput).getTime();
+            }
+            
+            try {
+                await set(ref(db, `luckyCodes/${code}`), codeData);
+                
+                document.getElementById('luckyCodeTitle').value = '';
+                document.getElementById('luckyCode').value = '';
+                document.getElementById('luckyCodeReward').value = '500';
+                document.getElementById('luckyCodeType').value = 'gold';
+                document.getElementById('luckyCodeExpiry').value = '';
+                showAlert('Lucky code created!', 'success');
+            } catch (error) {
+                console.error("Error creating lucky code:", error);
+                showAlert('Error creating lucky code', 'error');
+            }
+        };
+
+        window.deleteLuckyCode = async (code) => {
+            if (!confirm(`Are you sure you want to delete the lucky code "${code}"?`)) return;
+            try {
+                await remove(ref(db, `luckyCodes/${code}`));
+                showAlert('Lucky code deleted!', 'success');
+            } catch (error) {
+                console.error("Error deleting lucky code:", error);
+                showAlert('Error deleting lucky code', 'error');
+            }
+        };
+
+        // Gift Settings
+        let giftRewards = [];
+        
+        function loadGiftSettings() {
+            get(ref(db, 'admin/settings/giftSettings')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    document.getElementById('giftKeyCost').value = data.keyCost || 1;
+                    giftRewards = data.rewards || [];
+                } else {
+                    giftRewards = [
+                        { amount: 100, probability: 40 },
+                        { amount: 500, probability: 30 },
+                        { amount: 1000, probability: 20 },
+                        { amount: 5000, probability: 9 },
+                        { amount: 10000, probability: 1 }
+                    ];
+                }
+                renderGiftRewards();
+            }).catch(error => {
+                console.error("Error loading gift settings:", error);
+            });
+        }
+        
+        function renderGiftRewards() {
+            const container = document.getElementById('giftRewardsList');
+            if (giftRewards.length === 0) {
+                container.innerHTML = '<p style="color: #9ca3af; text-align: center;">No rewards configured</p>';
+                return;
+            }
+            
+            const totalProb = giftRewards.reduce((sum, r) => sum + r.probability, 0);
+            
+            container.innerHTML = giftRewards.map((r, idx) => `
+                <div class="item">
+                    <div class="item-header">
+                        <div>
+                            <strong>🪙 ${r.amount} GOLD</strong>
+                            <p style="font-size: 13px; color: #9ca3af; margin-top: 4px;">
+                                Probability: ${r.probability}% ${totalProb !== 100 ? '⚠️' : ''}
+                            </p>
+                        </div>
+                        <button class="btn btn-small btn-danger" onclick="removeGiftReward(${idx})">
+                            🗑️
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            if (totalProb !== 100) {
+                container.innerHTML += `<p style="color: #ef4444; margin-top: 10px; text-align: center;">⚠️ Warning: Total probability is ${totalProb}% (should be 100%)</p>`;
+            }
+        }
+        
+        window.addGiftReward = () => {
+            const amount = parseInt(document.getElementById('newGiftAmount').value);
+            const probability = parseFloat(document.getElementById('newGiftProbability').value);
+            
+            if (isNaN(amount) || amount <= 0 || isNaN(probability) || probability <= 0) {
+                showAlert('Please enter valid amount and probability', 'error');
+                return;
+            }
+            
+            giftRewards.push({ amount, probability });
+            giftRewards.sort((a, b) => a.amount - b.amount);
+            
+            document.getElementById('newGiftAmount').value = '';
+            document.getElementById('newGiftProbability').value = '';
+            renderGiftRewards();
+            showAlert('Reward added! Don\'t forget to save settings.', 'success');
+        };
+        
+        window.removeGiftReward = (index) => {
+            if (!confirm('Remove this reward tier?')) return;
+            giftRewards.splice(index, 1);
+            renderGiftRewards();
+            showAlert('Reward removed! Don\'t forget to save settings.', 'success');
+        };
+        
+        window.saveGiftSettings = async () => {
+            const keyCost = parseInt(document.getElementById('giftKeyCost').value);
+            
+            if (isNaN(keyCost) || keyCost <= 0) {
+                showAlert('Please enter valid key cost', 'error');
+                return;
+            }
+            
+            const totalProb = giftRewards.reduce((sum, r) => sum + r.probability, 0);
+            if (Math.abs(totalProb - 100) > 0.1) {
+                if (!confirm(`Total probability is ${totalProb}% (not 100%). Save anyway?`)) {
+                    return;
+                }
+            }
+            
+            try {
+                await set(ref(db, 'admin/settings/giftSettings'), {
+                    keyCost,
+                    rewards: giftRewards
+                });
+                showAlert('Gift settings saved!', 'success');
+            } catch (error) {
+                console.error("Error saving gift settings:", error);
+                showAlert('Error saving gift settings', 'error');
+            }
+        };
+
+        // Admins
+        function loadAdmins() {
+            get(ref(db, 'admin/settings/adminList')).then((snapshot) => {
+                const container = document.getElementById('adminsList');
+                // Ensure default admins are present if none are found
+                const admins = snapshot.exists() ? snapshot.val() : [8101021767, 7323645947];
+                
+                // Store in a global variable for use by addAdmin/removeAdmin
+                window.currentAdminList = admins; 
+                
+                container.innerHTML = admins.map(id => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <strong>Admin ID: ${id}</strong>
+                                ${(id === 8101021767 || id === 7323645947) ? '<p style="font-size: 12px; color: #facc15; margin-top: 4px;">👑 Main Admin</p>' : ''}
+                            </div>
+                            ${(id !== 8101021767 && id !== 7323645947) ? `
+                                <button class="btn btn-small btn-danger" onclick="removeAdmin(${id})">
+                                    🗑️
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }).catch(error => {
+                console.error("Error loading admins:", error);
+                container.innerHTML = '<div class="card"><p style="text-align: center; color: #9ca3af;">Error loading admins.</p></div>';
+            });
+        }
+
+        window.addAdmin = async () => {
+            const idInput = document.getElementById('newAdminId');
+            const id = parseInt(idInput.value);
+            if (!id || id <= 0) {
+                showAlert('Invalid Telegram ID. Please enter a positive number.', 'error');
+                return;
+            }
+            
+            // Check if the list is loaded, if not, use default as fallback
+            const currentAdmins = window.currentAdminList || [8101021767, 7323645947];
+
+            if (currentAdmins.includes(id)) {
+                showAlert('Admin with this ID already exists.', 'error');
+                return;
+            }
+            
+            try {
+                const newList = [...currentAdmins, id];
+                await set(ref(db, 'admin/settings/adminList'), newList);
+                window.currentAdminList = newList; // Update global list
+                idInput.value = ''; // Clear input
+                loadAdmins(); // Re-render list
+                showAlert('Admin added!', 'success');
+            } catch (error) {
+                console.error("Error adding admin:", error);
+                showAlert('Error adding admin', 'error');
+            }
+        };
+
+        window.removeAdmin = async (id) => {
+            if (!confirm(`Are you sure you want to remove admin with ID ${id}?`)) return;
+            
+            const currentAdmins = window.currentAdminList || [8101021767, 7323645947];
+            const newList = currentAdmins.filter(a => a !== id);
+
+            try {
+                await set(ref(db, 'admin/settings/adminList'), newList);
+                window.currentAdminList = newList; // Update global list
+                loadAdmins(); // Re-render list
+                showAlert('Admin removed!', 'success');
+            } catch (error) {
+                console.error("Error removing admin:", error);
+                showAlert('Error removing admin', 'error');
+            }
+        };
+
+        // Tab switching
+        window.switchTab = (tabId) => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            // Activate the clicked tab button
+            event.target.classList.add('active');
+            
+            // Activate the corresponding tab content
+            document.getElementById(tabId).classList.add('active');
+        };
+
+        // Alert system
+        function showAlert(message, type) {
+            const alertContainer = document.getElementById('alertContainer');
+            if (!alertContainer) {
+                const container = document.createElement('div');
+                container.id = 'alertContainer';
+                container.style.position = 'fixed';
+                container.style.top = '20px';
+                container.style.right = '20px';
+                container.style.zIndex = '9999';
+                container.style.display = 'flex';
+                container.style.flexDirection = 'column';
+                container.style.gap = '10px';
+                document.body.appendChild(container);
+            }
+
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            document.getElementById('alertContainer').prepend(alert); // Add to the top
+            
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.5s ease-out';
+                alert.addEventListener('transitionend', () => alert.remove(), { once: true });
+            }, 3000);
+        }
+        window.showAlert = showAlert;
+    </script>
+</body>
+</html>
