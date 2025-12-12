@@ -3,65 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Admin Panel - MoneyShark</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Admin Panel V3 - MoneyShark</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-dark: #0a1929;
+            --bg-card: rgba(17, 34, 64, 0.8);
+            --bg-input: rgba(0, 0, 0, 0.3);
+            --primary: #00d9ff;
+            --primary-glow: rgba(0, 217, 255, 0.3);
+            --gold: #fbbf24;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: rgba(0, 217, 255, 0.2);
+            --border-hover: rgba(0, 217, 255, 0.5);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --bg-primary: #0a1628;
-            --bg-secondary: #0f2744;
-            --bg-card: rgba(15, 39, 68, 0.8);
-            --primary: #06b6d4;
-            --primary-glow: rgba(6, 182, 212, 0.3);
-            --secondary: #3b82f6;
-            --accent: #22d3ee;
-            --gold: #fbbf24;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border: rgba(6, 182, 212, 0.2);
-            --border-hover: rgba(6, 182, 212, 0.4);
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, #051c2e 50%, #0a1628 100%);
-            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #051525 100%);
+            color: var(--text);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Animated background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 20%, var(--primary-glow) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
-        }
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
 
+        /* Login Screen */
         .login-container {
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             padding: 20px;
-            position: relative;
-            z-index: 1;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
         }
 
         .login-card {
@@ -72,56 +59,44 @@
             padding: 48px 40px;
             max-width: 420px;
             width: 100%;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                0 0 100px var(--primary-glow);
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 80px var(--primary-glow);
         }
 
         .login-header {
             text-align: center;
-            margin-bottom: 36px;
+            margin-bottom: 40px;
         }
 
-        .shield-icon {
-            width: 90px;
-            height: 90px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), #0099cc);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 24px;
-            font-size: 44px;
-            box-shadow: 
-                0 0 40px var(--primary-glow),
-                0 0 80px var(--primary-glow);
-            animation: pulse 2s infinite;
+            font-size: 50px;
+            box-shadow: 0 0 50px var(--primary-glow);
+            animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 40px var(--primary-glow); }
-            50% { transform: scale(1.05); box-shadow: 0 0 60px var(--primary-glow); }
+            0%, 100% { box-shadow: 0 0 30px var(--primary-glow); transform: scale(1); }
+            50% { box-shadow: 0 0 60px var(--primary-glow); transform: scale(1.02); }
         }
 
         h1 {
-            color: var(--text-primary);
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), #fff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            color: var(--text-secondary);
+            color: var(--text-muted);
             font-size: 14px;
         }
 
@@ -132,21 +107,19 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: var(--text-secondary);
+            color: var(--text);
             font-size: 13px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 500;
         }
 
         input, textarea, select {
             width: 100%;
             padding: 14px 16px;
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 12px;
-            color: var(--text-primary);
-            font-size: 15px;
+            color: var(--text);
+            font-size: 14px;
             font-family: inherit;
             transition: all 0.3s ease;
         }
@@ -154,8 +127,7 @@
         input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 4px var(--primary-glow);
         }
 
         input::placeholder, textarea::placeholder {
@@ -165,42 +137,23 @@
         .btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), #0099cc);
             border: none;
             border-radius: 12px;
-            color: white;
+            color: #000;
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 40px var(--primary-glow);
-        }
-
-        .btn:active {
-            transform: translateY(0);
+            box-shadow: 0 10px 30px var(--primary-glow);
         }
 
         .btn:disabled {
@@ -210,32 +163,46 @@
         }
 
         .btn-secondary {
-            background: rgba(6, 182, 212, 0.15);
+            background: var(--bg-input);
             border: 1px solid var(--border);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger), #b91c1c);
+            color: var(--text);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, var(--success), #15803d);
+            background: linear-gradient(135deg, var(--success), #16a34a);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #dc2626);
+            color: #fff;
         }
 
         .btn-warning {
             background: linear-gradient(135deg, var(--warning), #d97706);
+            color: #000;
         }
 
-        .hidden {
-            display: none !important;
+        .btn-small {
+            padding: 10px 16px;
+            font-size: 13px;
+            width: auto;
         }
 
+        .btn-icon {
+            padding: 10px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Dashboard */
         .dashboard {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
-            position: relative;
-            z-index: 1;
         }
 
         .header {
@@ -243,12 +210,12 @@
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 24px 32px;
+            padding: 20px 24px;
             margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            gap: 16px;
         }
 
         .header-left {
@@ -258,36 +225,96 @@
         }
 
         .header-icon {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 16px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), #0099cc);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 0 30px var(--primary-glow);
-        }
-
-        .header h2 {
             font-size: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .tabs {
-            display: flex;
-            gap: 8px;
+        .header-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
             margin-bottom: 24px;
-            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .stat-icon.gold { background: rgba(251, 191, 36, 0.2); }
+        .stat-icon.users { background: rgba(0, 217, 255, 0.2); }
+        .stat-icon.tasks { background: rgba(34, 197, 94, 0.2); }
+        .stat-icon.withdrawals { background: rgba(239, 68, 68, 0.2); }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Tabs */
+        .tabs-container {
             background: var(--bg-card);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 8px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 4px;
+            min-width: max-content;
         }
 
         .tab {
@@ -298,83 +325,76 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .tab:hover {
-            background: rgba(6, 182, 212, 0.1);
-            color: var(--text-primary);
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--text);
         }
 
         .tab.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 20px var(--primary-glow);
+            background: linear-gradient(135deg, var(--primary), #0099cc);
+            color: #000;
+            font-weight: 600;
         }
 
         .tab-content {
             display: none;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            animation: fadeIn 0.3s ease;
         }
 
         .tab-content.active {
             display: block;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards */
         .card {
             background: var(--bg-card);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border);
             border-radius: 20px;
-            padding: 28px;
+            padding: 24px;
             margin-bottom: 20px;
             transition: all 0.3s ease;
         }
 
         .card:hover {
             border-color: var(--border-hover);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
         .card-header {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: var(--text-primary);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            margin-bottom: 8px;
         }
 
-        .card-header-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .card-title {
             font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
         }
 
         .card-subtitle {
             color: var(--text-muted);
             font-size: 13px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
         }
 
@@ -386,41 +406,72 @@
             grid-template-columns: repeat(3, 1fr);
         }
 
+        /* Items List */
+        .items-grid {
+            display: grid;
+            gap: 12px;
+        }
+
         .item {
-            background: rgba(0, 0, 0, 0.2);
+            background: var(--bg-input);
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 20px;
-            margin-bottom: 12px;
             transition: all 0.3s ease;
         }
 
         .item:hover {
-            background: rgba(0, 0, 0, 0.3);
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
+            border-color: var(--primary);
+            transform: translateX(4px);
         }
 
         .item-header {
             display: flex;
             justify-content: space-between;
-            align-items: start;
+            align-items: flex-start;
+            gap: 16px;
             margin-bottom: 12px;
         }
 
+        .item-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text);
+        }
+
+        .item-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .item-meta {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        .item-reward {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gold);
+            margin-top: 8px;
+        }
+
+        /* Badges */
         .badge {
             padding: 6px 14px;
             border-radius: 20px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .badge-pending {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-            border: 1px solid rgba(245, 158, 11, 0.3);
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--gold);
+            border: 1px solid rgba(251, 191, 36, 0.3);
         }
 
         .badge-approved {
@@ -436,152 +487,27 @@
         }
 
         .badge-active {
-            background: rgba(6, 182, 212, 0.2);
+            background: rgba(0, 217, 255, 0.2);
             color: var(--primary);
-            border: 1px solid rgba(6, 182, 212, 0.3);
+            border: 1px solid rgba(0, 217, 255, 0.3);
         }
 
-        .badge-ended {
-            background: rgba(100, 116, 139, 0.2);
-            color: var(--text-muted);
-            border: 1px solid rgba(100, 116, 139, 0.3);
-        }
-
+        /* Button Groups */
         .btn-group {
             display: flex;
             gap: 8px;
-            margin-top: 12px;
+            margin-top: 16px;
             flex-wrap: wrap;
         }
 
-        .btn-small {
-            padding: 10px 18px;
-            font-size: 12px;
-            width: auto;
-            border-radius: 10px;
-        }
-
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 60px;
-            color: var(--text-muted);
-        }
-
-        .spinner {
-            border: 4px solid var(--border);
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        /* Help Text */
         .help-text {
             font-size: 11px;
             color: var(--text-muted);
             margin-top: 6px;
         }
 
-        .alert {
-            padding: 16px 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        .alert-success {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--success);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-        }
-
-        .alert-error {
-            background: rgba(239, 68, 68, 0.15);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(59, 130, 246, 0.1));
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .section-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
-            margin: 32px 0;
-        }
-
-        .prize-input-group {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .prize-input-group .prize-rank {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .prize-rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
-        .prize-rank-2 { background: linear-gradient(135deg, #94a3b8, #64748b); color: #000; }
-        .prize-rank-3 { background: linear-gradient(135deg, #a78bfa, #7c3aed); color: #fff; }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-        }
-
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
+        /* Toast Notifications */
         .toast-container {
             position: fixed;
             top: 20px;
@@ -589,74 +515,364 @@
             z-index: 9999;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .toast {
-            padding: 16px 24px;
+            padding: 16px 20px;
             border-radius: 12px;
-            backdrop-filter: blur(20px);
-            animation: toastIn 0.3s ease-out;
+            min-width: 280px;
             display: flex;
             align-items: center;
             gap: 12px;
-            min-width: 300px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
         }
 
-        @keyframes toastIn {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
+        .toast-success {
+            background: rgba(34, 197, 94, 0.9);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            color: #fff;
+        }
+
+        .toast-error {
+            background: rgba(239, 68, 68, 0.9);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fff;
+        }
+
+        .toast-info {
+            background: rgba(0, 217, 255, 0.9);
+            border: 1px solid rgba(0, 217, 255, 0.5);
+            color: #000;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            animation: spin 1s linear infinite;
+            margin: 40px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 32px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        /* Tags */
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text);
+        }
+
+        .tag-remove {
+            cursor: pointer;
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-input);
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        /* Search */
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            padding-left: 44px;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .grid, .grid-2, .grid-3 {
-                grid-template-columns: 1fr;
-            }
-
-            .tabs {
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                -webkit-overflow-scrolling: touch;
-            }
-
-            .tab {
-                white-space: nowrap;
-                flex-shrink: 0;
+            .dashboard {
+                padding: 12px;
             }
 
             .header {
                 flex-direction: column;
-                gap: 16px;
-                padding: 20px;
+                text-align: center;
+            }
+
+            .header-left {
+                flex-direction: column;
+            }
+
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn-group .btn {
+                width: 100%;
+            }
+
+            .card {
+                padding: 16px;
             }
 
             .login-card {
                 padding: 32px 24px;
             }
+        }
 
-            .card {
-                padding: 20px;
-            }
+        /* Section Title */
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-            .toast {
-                min-width: auto;
-                margin: 0 10px;
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 24px 0;
+        }
+
+        /* Switch */
+        .switch-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .switch {
+            position: relative;
+            width: 48px;
+            height: 26px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            inset: 0;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .switch input:checked + .switch-slider {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .switch input:checked + .switch-slider:before {
+            transform: translateX(22px);
+            background: #fff;
+        }
+
+        /* Prize inputs */
+        .prize-inputs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 480px) {
+            .prize-inputs {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <!-- Toast Container -->
-    <div id="toastContainer" class="toast-container"></div>
+    <div class="toast-container" id="toastContainer"></div>
 
     <!-- Login Screen -->
     <div id="loginScreen" class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <div class="shield-icon">🦈</div>
-                <h1>Admin Panel</h1>
-                <p class="subtitle">Enter your credentials to access MoneyShark admin</p>
+                <div class="logo">🦈</div>
+                <h1>Admin Panel V3</h1>
+                <p class="subtitle">MoneyShark Management System</p>
             </div>
             <form id="loginForm">
                 <div class="form-group">
@@ -668,7 +884,7 @@
                     <input type="password" id="loginPassword" placeholder="••••••••" required>
                 </div>
                 <button type="submit" class="btn" id="loginBtn">
-                    🚀 Login to Dashboard
+                    <span>🚀</span> Login to Dashboard
                 </button>
             </form>
         </div>
@@ -677,41 +893,85 @@
     <!-- Dashboard -->
     <div id="dashboard" class="hidden">
         <div class="dashboard">
+            <!-- Header -->
             <div class="header">
                 <div class="header-left">
                     <div class="header-icon">🦈</div>
                     <div>
-                        <h2>MoneyShark Admin</h2>
-                        <p class="subtitle">Manage your application</p>
+                        <div class="header-title">MoneyShark Admin</div>
+                        <div class="header-subtitle">Control Panel V3</div>
                     </div>
                 </div>
-                <button class="btn btn-small btn-secondary" onclick="logout()">🚪 Logout</button>
+                <button class="btn btn-secondary btn-small" onclick="logout()">
+                    🚪 Logout
+                </button>
             </div>
 
-            <div class="tabs">
-                <div class="tab active" onclick="switchTab('withdrawals')">💰 Withdrawals</div>
-                <div class="tab" onclick="switchTab('tasks')">📋 Tasks</div>
-                <div class="tab" onclick="switchTab('quests')">🎯 Quests</div>
-                <div class="tab" onclick="switchTab('giveaways')">🎉 Giveaways</div>
-                <div class="tab" onclick="switchTab('settings')">⚙️ Settings</div>
-                <div class="tab" onclick="switchTab('luckycodes')">🎁 Lucky Codes</div>
-                <div class="tab" onclick="switchTab('gifts')">📦 Gifts</div>
-                <div class="tab" onclick="switchTab('admins')">👥 Admins</div>
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-card">
+                    <div class="stat-icon users">👥</div>
+                    <div>
+                        <div class="stat-value" id="statUsers">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon gold">💰</div>
+                    <div>
+                        <div class="stat-value" id="statGold">0</div>
+                        <div class="stat-label">Total Gold</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon tasks">📋</div>
+                    <div>
+                        <div class="stat-value" id="statTasks">0</div>
+                        <div class="stat-label">Active Tasks</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon withdrawals">💸</div>
+                    <div>
+                        <div class="stat-value" id="statWithdrawals">0</div>
+                        <div class="stat-label">Pending Withdrawals</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('withdrawals')">💸 Withdrawals</button>
+                    <button class="tab" onclick="switchTab('tasks')">📋 Tasks</button>
+                    <button class="tab" onclick="switchTab('users')">👥 Users</button>
+                    <button class="tab" onclick="switchTab('giveaways')">🎁 Giveaways</button>
+                    <button class="tab" onclick="switchTab('quests')">🎯 Quests</button>
+                    <button class="tab" onclick="switchTab('luckycodes')">🍀 Lucky Codes</button>
+                    <button class="tab" onclick="switchTab('gifts')">🎁 Treasure</button>
+                    <button class="tab" onclick="switchTab('settings')">⚙️ Settings</button>
+                    <button class="tab" onclick="switchTab('bot')">🤖 Bot Config</button>
+                    <button class="tab" onclick="switchTab('admins')">👑 Admins</button>
+                </div>
             </div>
 
             <!-- Withdrawals Tab -->
             <div id="withdrawals" class="tab-content active">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">💰</div>
-                        Pending Withdrawals
+                        <span>💸</span>
+                        <span class="card-title">Withdrawal Requests</span>
                     </div>
-                    <p class="card-subtitle">Review and process withdrawal requests from users</p>
-                </div>
-                <div id="withdrawalsList">
-                    <div class="loading">
+                    <p class="card-subtitle">Manage pending and processed withdrawal requests</p>
+                    
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchWithdrawals" placeholder="Search by username or wallet..." oninput="filterWithdrawals()">
+                    </div>
+                    
+                    <div id="withdrawalsList" class="items-grid">
                         <div class="spinner"></div>
-                        <p>Loading withdrawals...</p>
+                        <p class="loading-text">Loading withdrawals...</p>
                     </div>
                 </div>
             </div>
@@ -720,115 +980,86 @@
             <div id="tasks" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">➕</div>
-                        Create New Task
+                        <span>➕</span>
+                        <span class="card-title">Create New Task</span>
                     </div>
-                    <p class="card-subtitle">Add a new task for users to complete and earn rewards</p>
+                    <p class="card-subtitle">Add a new task for users to complete</p>
                     
-                    <div class="form-group">
-                        <label>Task Title</label>
-                        <input type="text" id="taskTitle" placeholder="e.g., Follow our Twitter">
-                    </div>
-                    <div class="form-group">
-                        <label>Task Description</label>
-                        <textarea id="taskDesc" rows="3" placeholder="Describe what users need to do..."></textarea>
-                    </div>
                     <div class="grid">
                         <div class="form-group">
+                            <label>Task Title</label>
+                            <input type="text" id="taskTitle" placeholder="Join our Telegram">
+                        </div>
+                        <div class="form-group">
                             <label>Task Type</label>
-                            <select id="taskType">
-                                <option value="link">🔗 Direct Link</option>
-                                <option value="telegram">📱 Telegram Channel</option>
-                                <option value="code">🔑 Code Task</option>
+                            <select id="taskType" onchange="toggleTaskFields()">
+                                <option value="link">Direct Link</option>
+                                <option value="telegram">Telegram Channel</option>
+                                <option value="code">Code Verification</option>
                             </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="taskDesc" rows="2" placeholder="Complete this task to earn rewards"></textarea>
+                    </div>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Task Link</label>
+                            <input type="url" id="taskLink" placeholder="https://t.me/channel">
                         </div>
                         <div class="form-group">
                             <label>Reward (GOLD)</label>
                             <input type="number" id="taskReward" value="100" placeholder="100">
                         </div>
+                    </div>
+                    
+                    <div class="grid">
                         <div class="form-group">
-                            <label>Max Impressions</label>
-                            <input type="number" id="taskImpressions" value="1000" placeholder="1000">
-                            <p class="help-text">How many times task will be shown</p>
+                            <label>Max Impressions (0 = unlimited)</label>
+                            <input type="number" id="taskImpressions" value="0" placeholder="0">
+                            <p class="help-text">Task hides when limit reached</p>
+                        </div>
+                        <div class="form-group" id="taskCodeGroup" style="display: none;">
+                            <label>Required Code</label>
+                            <input type="text" id="taskCode" placeholder="SECRET123">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label>Task Link / Channel URL</label>
-                        <input type="url" id="taskLink" placeholder="https://example.com or https://t.me/channel">
-                    </div>
-                    <div class="form-group" id="taskCodeGroup" style="display: none;">
-                        <label>Required Code</label>
-                        <input type="text" id="taskCode" placeholder="Enter code users must input">
-                    </div>
-                    <button class="btn" onclick="createTask()">➕ Create Task</button>
+                    
+                    <button class="btn" onclick="createTask()">
+                        ➕ Create Task
+                    </button>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">📋</div>
-                        Active Tasks
+                        <span>📋</span>
+                        <span class="card-title">Existing Tasks</span>
                     </div>
-                    <p class="card-subtitle">Manage existing tasks</p>
-                    <div id="tasksList">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Loading tasks...</p>
-                        </div>
+                    <div id="tasksList" class="items-grid">
+                        <div class="spinner"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Quests Tab -->
-            <div id="quests" class="tab-content">
+            <!-- Users Tab -->
+            <div id="users" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">🎯</div>
-                        Create New Quest
+                        <span>👥</span>
+                        <span class="card-title">User Management</span>
                     </div>
-                    <p class="card-subtitle">Create milestone-based quests for users to complete</p>
+                    <p class="card-subtitle">Search and manage users</p>
                     
-                    <div class="grid">
-                        <div class="form-group">
-                            <label>Quest Title</label>
-                            <input type="text" id="questTitle" placeholder="e.g., Referral Master">
-                        </div>
-                        <div class="form-group">
-                            <label>Quest Type</label>
-                            <select id="questType">
-                                <option value="referral">👥 Referral Quest</option>
-                                <option value="task">✅ Task Completion Quest</option>
-                            </select>
-                        </div>
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="searchUsers" placeholder="Search by username or ID..." oninput="filterUsers()">
                     </div>
-                    <div class="grid">
-                        <div class="form-group">
-                            <label>Target Count</label>
-                            <input type="number" id="questTarget" value="5" placeholder="5">
-                            <p class="help-text">Number of referrals/tasks needed</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Reward (GOLD)</label>
-                            <input type="number" id="questReward" value="1000" placeholder="1000">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Quest Description</label>
-                        <textarea id="questDescription" rows="2" placeholder="Describe the quest..."></textarea>
-                    </div>
-                    <button class="btn" onclick="createQuest()">➕ Create Quest</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">📜</div>
-                        Active Quests
-                    </div>
-                    <p class="card-subtitle">Manage existing quests</p>
-                    <div id="questsList">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Loading quests...</p>
-                        </div>
+                    
+                    <div id="usersList" class="items-grid">
+                        <div class="spinner"></div>
                     </div>
                 </div>
             </div>
@@ -837,135 +1068,235 @@
             <div id="giveaways" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">🎉</div>
-                        Create New Giveaway
+                        <span>🎁</span>
+                        <span class="card-title">Create Giveaway</span>
                     </div>
-                    <p class="card-subtitle">Create exciting giveaways for your users with card-based entry</p>
+                    <p class="card-subtitle">Create a new giveaway with prizes</p>
                     
-                    <div class="grid">
+                    <div class="form-group">
+                        <label>Giveaway Title</label>
+                        <input type="text" id="giveawayTitle" placeholder="Weekly Gold Giveaway">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="giveawayDesc" rows="2" placeholder="Complete tasks to earn cards and win!"></textarea>
+                    </div>
+                    
+                    <div class="section-title">🏆 Prize Amounts (GOLD)</div>
+                    <div class="prize-inputs">
                         <div class="form-group">
-                            <label>Giveaway Title</label>
-                            <input type="text" id="giveawayTitle" placeholder="e.g., Weekly Gold Rush">
+                            <label>🥇 1st Prize</label>
+                            <input type="number" id="prize1" value="10000" placeholder="10000">
                         </div>
                         <div class="form-group">
-                            <label>Duration (Days)</label>
-                            <input type="number" id="giveawayDuration" value="7" min="1" max="30" placeholder="7">
+                            <label>🥈 2nd Prize</label>
+                            <input type="number" id="prize2" value="5000" placeholder="5000">
+                        </div>
+                        <div class="form-group">
+                            <label>🥉 3rd Prize</label>
+                            <input type="number" id="prize3" value="2500" placeholder="2500">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label>Giveaway Description</label>
-                        <textarea id="giveawayDescription" rows="2" placeholder="Describe the giveaway..."></textarea>
-                    </div>
-
-                    <div class="section-divider"></div>
-                    
-                    <label style="margin-bottom: 16px; display: block;">🏆 Prize Distribution</label>
-                    <div class="prize-input-group">
-                        <div class="prize-rank prize-rank-1">1st</div>
-                        <input type="number" id="giveawayPrize1" value="10000" placeholder="1st Prize (GOLD)">
-                    </div>
-                    <div class="prize-input-group">
-                        <div class="prize-rank prize-rank-2">2nd</div>
-                        <input type="number" id="giveawayPrize2" value="5000" placeholder="2nd Prize (GOLD)">
-                    </div>
-                    <div class="prize-input-group">
-                        <div class="prize-rank prize-rank-3">3rd</div>
-                        <input type="number" id="giveawayPrize3" value="2500" placeholder="3rd Prize (GOLD)">
+                        <label>Duration (Days)</label>
+                        <input type="number" id="giveawayDays" value="7" placeholder="7">
+                        <p class="help-text">Giveaway will end after this many days</p>
                     </div>
                     
-                    <button class="btn" onclick="createGiveaway()" style="margin-top: 20px;">🎉 Create Giveaway</button>
+                    <button class="btn" onclick="createGiveaway()">
+                        🎁 Create Giveaway
+                    </button>
                 </div>
 
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">🏆</div>
-                        Active Giveaways
+                        <span>🎉</span>
+                        <span class="card-title">Active Giveaways</span>
                     </div>
-                    <p class="card-subtitle">Manage and end active giveaways</p>
-                    <div id="giveawaysList">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Loading giveaways...</p>
+                    <div id="giveawaysList" class="items-grid">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quests Tab -->
+            <div id="quests" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <span>🎯</span>
+                        <span class="card-title">Create Quest</span>
+                    </div>
+                    <p class="card-subtitle">Create milestone-based quests for users</p>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Quest Type</label>
+                            <select id="questType">
+                                <option value="referral">Referral Quest</option>
+                                <option value="task">Task Completion Quest</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Count</label>
+                            <input type="number" id="questTarget" value="5" placeholder="5">
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label>Reward (GOLD)</label>
+                        <input type="number" id="questReward" value="1000" placeholder="1000">
+                    </div>
+                    
+                    <button class="btn" onclick="createQuest()">
+                        🎯 Create Quest
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span>📜</span>
+                        <span class="card-title">Active Quests</span>
+                    </div>
+                    <div id="questsList" class="items-grid">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lucky Codes Tab -->
+            <div id="luckycodes" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <span>🍀</span>
+                        <span class="card-title">Create Lucky Code</span>
+                    </div>
+                    <p class="card-subtitle">Create redeemable codes with rewards</p>
+                    
+                    <div class="form-group">
+                        <label>Code Title</label>
+                        <input type="text" id="luckyCodeTitle" placeholder="Welcome Bonus">
+                    </div>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Code</label>
+                            <input type="text" id="luckyCode" placeholder="WELCOME2024" style="text-transform: uppercase;">
+                        </div>
+                        <div class="form-group">
+                            <label>Reward Amount</label>
+                            <input type="number" id="luckyCodeReward" value="500" placeholder="500">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Reward Type</label>
+                        <select id="luckyCodeType">
+                            <option value="gold">💰 GOLD</option>
+                            <option value="key">🔑 KEY</option>
+                            <option value="gem">💎 GEM</option>
+                            <option value="card">🎴 CARD</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn" onclick="createLuckyCode()">
+                        🍀 Create Lucky Code
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span>📝</span>
+                        <span class="card-title">Existing Codes</span>
+                    </div>
+                    <div id="luckyCodesList" class="items-grid">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Treasure/Gifts Tab -->
+            <div id="gifts" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <span>🎁</span>
+                        <span class="card-title">Treasure Rewards</span>
+                    </div>
+                    <p class="card-subtitle">Configure possible rewards when users open treasure chests</p>
+                    
+                    <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                        <input type="number" id="newGiftReward" placeholder="Reward amount" style="flex: 1;">
+                        <button class="btn btn-small" onclick="addGiftReward()">➕ Add</button>
+                    </div>
+                    
+                    <div id="giftRewardsList" class="tags"></div>
+                    
+                    <div class="divider"></div>
+                    
+                    <button class="btn" onclick="saveGiftSettings()">
+                        💾 Save Treasure Settings
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span>ℹ️</span>
+                        <span class="card-title">How It Works</span>
+                    </div>
+                    <ul style="color: var(--text-muted); font-size: 14px; line-height: 2; list-style: none;">
+                        <li>🔑 Users collect keys from lucky codes</li>
+                        <li>📦 1 key = 1 treasure chest opening</li>
+                        <li>🎲 Random reward from the list above</li>
+                        <li>⚙️ Add or remove rewards as needed</li>
+                    </ul>
                 </div>
             </div>
 
             <!-- Settings Tab -->
             <div id="settings" class="tab-content">
-                <!-- Currency & Rewards -->
+                <!-- Currency Settings -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">💰</div>
-                        Currency & Rewards
+                        <span>💰</span>
+                        <span class="card-title">Currency & Rates</span>
                     </div>
-                    <p class="card-subtitle">Configure GOLD and TON conversion rates</p>
+                    <p class="card-subtitle">Configure conversion rates and rewards</p>
+                    
                     <div class="grid">
                         <div class="form-group">
                             <label>GOLD per TON</label>
-                            <input type="number" id="goldPerTon" placeholder="100">
+                            <input type="number" id="goldPerTon" placeholder="100000">
                             <p class="help-text">How much GOLD = 1 TON</p>
                         </div>
                         <div class="form-group">
                             <label>TON per GOLD</label>
-                            <input type="number" step="0.000001" id="goldToTonRate" placeholder="0.00001">
+                            <input type="number" step="0.0000001" id="goldToTonRate" placeholder="0.00001">
                             <p class="help-text">1 GOLD = X TON</p>
                         </div>
                         <div class="form-group">
-                            <label>Minimum Withdrawal (GOLD)</label>
-                            <input type="number" id="minWithdrawal" placeholder="1000">
+                            <label>Min Withdrawal (GOLD)</label>
+                            <input type="number" id="minWithdrawal" placeholder="10000">
                         </div>
                         <div class="form-group">
-                            <label>Referral Percentage (%)</label>
+                            <label>Referral Commission (%)</label>
                             <input type="number" id="referralPercentage" placeholder="10">
                         </div>
                     </div>
                 </div>
 
-                <!-- Gem Settings -->
+                <!-- Daily Rewards -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">💎</div>
-                        Gem Settings
+                        <span>📅</span>
+                        <span class="card-title">Daily Rewards & Ads</span>
                     </div>
-                    <p class="card-subtitle">Configure gem withdrawal requirements</p>
+                    
                     <div class="grid">
                         <div class="form-group">
-                            <label>Gem Withdrawal Fee</label>
-                            <input type="number" id="gemWithdrawalFee" value="5" placeholder="5">
-                            <p class="help-text">Gems required to make a withdrawal</p>
+                            <label>Daily Check-in Reward (GOLD)</label>
+                            <input type="number" id="dailyCheckReward" placeholder="100">
                         </div>
-                    </div>
-                </div>
-
-                <!-- Task Settings -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">🎯</div>
-                        Task Settings
-                    </div>
-                    <p class="card-subtitle">Configure task creation and pricing</p>
-                    <div class="grid">
-                        <div class="form-group">
-                            <label>Task Payment Address (TON)</label>
-                            <input type="text" id="taskPaymentAddress" placeholder="UQ...">
-                        </div>
-                        <div class="form-group">
-                            <label>Impression Price (TON per 100)</label>
-                            <input type="number" step="0.01" id="impressionPrice" placeholder="0.05">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Ads & Daily Rewards -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">📺</div>
-                        Ads & Daily Rewards
-                    </div>
-                    <p class="card-subtitle">Configure advertising and check-in rewards</p>
-                    <div class="grid">
                         <div class="form-group">
                             <label>Ad Reward (GOLD)</label>
                             <input type="number" id="adReward" placeholder="50">
@@ -975,36 +1306,85 @@
                             <input type="number" id="dailyAdLimit" placeholder="10">
                         </div>
                         <div class="form-group">
-                            <label>Daily Check-in Reward</label>
-                            <input type="number" id="dailyCheckReward" placeholder="100">
-                        </div>
-                        <div class="form-group">
-                            <label>Check-in Channel Link</label>
-                            <input type="url" id="dailyCheckChannel" placeholder="https://t.me/your_channel">
+                            <label>Gem Withdrawal Fee</label>
+                            <input type="number" id="gemFee" placeholder="5">
+                            <p class="help-text">Gems required to withdraw</p>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bot Configuration -->
+                <!-- Task Settings -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">🤖</div>
-                        Bot Configuration
+                        <span>📋</span>
+                        <span class="card-title">Task Settings</span>
                     </div>
-                    <p class="card-subtitle">Telegram bot settings for notifications</p>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Task Payment Address (TON)</label>
+                            <input type="text" id="taskPaymentAddress" placeholder="UQ...">
+                        </div>
+                        <div class="form-group">
+                            <label>Impression Price (TON/100)</label>
+                            <input type="number" step="0.01" id="impressionPrice" placeholder="0.05">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theme Colors -->
+                <div class="card">
+                    <div class="card-header">
+                        <span>🎨</span>
+                        <span class="card-title">Theme Colors</span>
+                    </div>
+                    <p class="card-subtitle">HSL format (e.g., 200 100% 50%)</p>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Background</label>
+                            <input type="text" id="themeBackground" placeholder="200 70% 8%">
+                        </div>
+                        <div class="form-group">
+                            <label>Primary</label>
+                            <input type="text" id="themePrimary" placeholder="190 100% 50%">
+                        </div>
+                        <div class="form-group">
+                            <label>Gold/Accent</label>
+                            <input type="text" id="themeGold" placeholder="45 93% 58%">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="saveSettings()">
+                    💾 Save All Settings
+                </button>
+            </div>
+
+            <!-- Bot Config Tab -->
+            <div id="bot" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <span>🤖</span>
+                        <span class="card-title">Telegram Bot Configuration</span>
+                    </div>
+                    <p class="card-subtitle">Configure bot settings for notifications</p>
+                    
                     <div class="form-group">
                         <label>Bot API Token</label>
                         <input type="text" id="botApiToken" placeholder="1234567890:ABC...">
+                        <p class="help-text">Get from @BotFather</p>
                     </div>
-                </div>
-
-                <!-- TON Connect Manifest -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">🔗</div>
-                        TON Connect Manifest
+                    
+                    <div class="form-group">
+                        <label>Daily Check-in Channel</label>
+                        <input type="url" id="dailyCheckChannel" placeholder="https://t.me/yourchannel">
                     </div>
-                    <p class="card-subtitle">Configure TON wallet connection</p>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="section-title">🔗 TON Connect Manifest</div>
+                    
                     <div class="grid">
                         <div class="form-group">
                             <label>App Name</label>
@@ -1015,134 +1395,55 @@
                             <input type="url" id="manifestUrl" placeholder="https://moneyshark.app">
                         </div>
                     </div>
+                    
                     <div class="form-group">
                         <label>Icon URL</label>
                         <input type="url" id="manifestIconUrl" placeholder="https://moneyshark.app/icon.png">
                     </div>
-                </div>
-
-                <!-- Theme Colors -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">🎨</div>
-                        Theme Colors
-                    </div>
-                    <p class="card-subtitle">Customize app appearance (HSL format: H S% L%)</p>
-                    <div class="grid">
-                        <div class="form-group">
-                            <label>Background Color</label>
-                            <input type="text" id="themeBackground" placeholder="200 50% 10%">
-                        </div>
-                        <div class="form-group">
-                            <label>Primary Color</label>
-                            <input type="text" id="themePrimary" placeholder="187 94% 43%">
-                        </div>
-                        <div class="form-group">
-                            <label>Gold/Accent Color</label>
-                            <input type="text" id="themeGold" placeholder="45 93% 58%">
-                        </div>
-                    </div>
-                    <div class="form-group" style="margin-top: 16px;">
-                        <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                            <input type="checkbox" id="allowTestnet" style="width: auto; cursor: pointer;">
-                            <span>Allow Testnet Mode</span>
+                    
+                    <div class="divider"></div>
+                    
+                    <div class="switch-container">
+                        <label class="switch">
+                            <input type="checkbox" id="allowTestnet">
+                            <span class="switch-slider"></span>
                         </label>
-                        <p class="help-text">Enable testnet for testing transactions</p>
+                        <span>Allow Testnet (for testing)</span>
                     </div>
+                    
+                    <div class="divider"></div>
+                    
+                    <button class="btn" onclick="saveBotConfig()">
+                        💾 Save Bot Configuration
+                    </button>
                 </div>
 
-                <button class="btn" onclick="saveSettings()">💾 Save All Settings</button>
-            </div>
-
-            <!-- Lucky Codes Tab -->
-            <div id="luckycodes" class="tab-content">
+                <!-- Send Message Card -->
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">🎁</div>
-                        Create Lucky Code
+                        <span>📨</span>
+                        <span class="card-title">Send Message to Users</span>
                     </div>
-                    <p class="card-subtitle">Create promotional codes for users to redeem rewards</p>
+                    <p class="card-subtitle">Send broadcast message to all or specific users</p>
                     
                     <div class="form-group">
-                        <label>Code Title</label>
-                        <input type="text" id="luckyCodeTitle" placeholder="e.g., Welcome Bonus">
+                        <label>Recipient (leave empty for all users)</label>
+                        <input type="text" id="msgRecipient" placeholder="Chat ID or leave empty">
                     </div>
-                    <div class="grid">
-                        <div class="form-group">
-                            <label>Code</label>
-                            <input type="text" id="luckyCode" placeholder="WELCOME2024" style="text-transform: uppercase;">
-                        </div>
-                        <div class="form-group">
-                            <label>Reward Type</label>
-                            <select id="luckyCodeType">
-                                <option value="gold">🪙 Gold</option>
-                                <option value="key">🔑 Key</option>
-                                <option value="gem">💎 Gem</option>
-                                <option value="card">🎴 Card</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Reward Amount</label>
-                            <input type="number" id="luckyCodeReward" value="500" placeholder="500">
-                        </div>
-                        <div class="form-group">
-                            <label>Expiration (Optional)</label>
-                            <input type="datetime-local" id="luckyCodeExpiry">
-                        </div>
-                    </div>
-                    <button class="btn" onclick="createLuckyCode()">➕ Create Lucky Code</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">📋</div>
-                        Active Lucky Codes
-                    </div>
-                    <div id="luckyCodesList">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Loading lucky codes...</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gifts Tab -->
-            <div id="gifts" class="tab-content">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">📦</div>
-                        Gift/Treasure Settings
-                    </div>
-                    <p class="card-subtitle">Configure treasure chest reward tiers and probabilities</p>
                     
                     <div class="form-group">
-                        <label>Gift Opening Cost (Keys)</label>
-                        <input type="number" id="giftKeyCost" value="1" placeholder="1">
-                        <p class="help-text">Number of keys required to open a gift</p>
-                    </div>
-
-                    <div class="section-divider"></div>
-                    
-                    <label style="margin-bottom: 16px; display: block;">🎁 Reward Tiers</label>
-                    <div id="giftRewardsList"></div>
-                    
-                    <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px; margin-top: 20px;">
-                        <h4 style="color: var(--primary); margin-bottom: 16px;">➕ Add New Reward Tier</h4>
-                        <div class="grid">
-                            <div class="form-group">
-                                <label>Reward Amount (GOLD)</label>
-                                <input type="number" id="newGiftAmount" placeholder="100">
-                            </div>
-                            <div class="form-group">
-                                <label>Probability (%)</label>
-                                <input type="number" step="0.1" id="newGiftProbability" placeholder="10">
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" onclick="addGiftReward()">➕ Add Reward</button>
+                        <label>Message</label>
+                        <textarea id="msgText" rows="4" placeholder="Enter your message..."></textarea>
                     </div>
                     
-                    <button class="btn" style="margin-top: 24px;" onclick="saveGiftSettings()">💾 Save Gift Settings</button>
+                    <div class="form-group">
+                        <label>Image URL (optional)</label>
+                        <input type="url" id="msgImage" placeholder="https://example.com/image.jpg">
+                    </div>
+                    
+                    <button class="btn" onclick="sendBroadcast()">
+                        📨 Send Message
+                    </button>
                 </div>
             </div>
 
@@ -1150,33 +1451,32 @@
             <div id="admins" class="tab-content">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-header-icon">👥</div>
-                        Add Administrator
+                        <span>👑</span>
+                        <span class="card-title">Admin Management</span>
                     </div>
-                    <p class="card-subtitle">Grant admin access using Telegram ID</p>
+                    <p class="card-subtitle">Manage administrator access</p>
                     
-                    <div style="display: flex; gap: 12px; align-items: end;">
-                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                            <label>Telegram ID</label>
-                            <input type="number" id="newAdminId" placeholder="Enter Telegram user ID">
-                        </div>
-                        <button class="btn btn-small" onclick="addAdmin()" style="height: 48px;">➕ Add</button>
+                    <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                        <input type="number" id="newAdminId" placeholder="Telegram ID" style="flex: 1;">
+                        <button class="btn btn-small" onclick="addAdmin()">➕ Add Admin</button>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-header-icon">🛡️</div>
-                        Current Administrators
-                    </div>
-                    <div id="adminsList">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <p>Loading admins...</p>
-                        </div>
+                    
+                    <div id="adminsList" class="items-grid">
+                        <div class="spinner"></div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal-overlay" id="editUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Edit User</span>
+                <button class="modal-close" onclick="closeModal('editUserModal')">×</button>
+            </div>
+            <div id="editUserContent"></div>
         </div>
     </div>
 
@@ -1184,10 +1484,10 @@
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-        import { getDatabase, ref, onValue, push, set, remove, get, update } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
+        import { getDatabase, ref, onValue, push, set, remove, get, update, query, orderByChild, limitToLast } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js';
 
         // Firebase configuration - MoneyShark
-const firebaseConfig = {
+        const firebaseConfig = {
   apiKey: "AIzaSyACdtwiQdtTgf7dQc9Db8NXVMHvFtCZgNM",
   authDomain: "shark-rush.firebaseapp.com",
   databaseURL: "https://shark-rush-default-rtdb.firebaseio.com",
@@ -1201,7 +1501,7 @@ const firebaseConfig = {
         const auth = getAuth(app);
         const db = getDatabase(app);
 
-        // Make functions global
+        // Global references
         window.db = db;
         window.auth = auth;
         window.firebaseRef = ref;
@@ -1212,49 +1512,18 @@ const firebaseConfig = {
         window.firebaseUpdate = update;
         window.firebaseOnValue = onValue;
 
-        // Toast notification system
-        window.showToast = (message, type = 'success') => {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast alert-${type}`;
-            toast.innerHTML = `
-                <span>${type === 'success' ? '✅' : '❌'}</span>
-                <span>${message}</span>
-            `;
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.style.animation = 'toastIn 0.3s ease-out reverse';
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        };
-
-        // Legacy alert function
-        window.showAlert = (message, type) => {
-            showToast(message, type);
-        };
-
-        // Tab switching
-        window.switchTab = (tabId) => {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        };
-
-        // Task type change handler
-        document.getElementById('taskType').addEventListener('change', (e) => {
-            const codeGroup = document.getElementById('taskCodeGroup');
-            codeGroup.style.display = e.target.value === 'code' ? 'block' : 'none';
-        });
+        // Data stores
+        let allWithdrawals = [];
+        let allUsers = [];
+        let giftRewards = [100, 200, 500, 1000, 2000, 5000];
+        let currentAdminList = [];
 
         // Auth state
         onAuthStateChanged(auth, (user) => {
             if (user && user.email === 'abcoinseo@gmail.com') {
                 document.getElementById('loginScreen').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
-                loadData();
+                loadAllData();
             } else {
                 document.getElementById('loginScreen').classList.remove('hidden');
                 document.getElementById('dashboard').classList.add('hidden');
@@ -1269,7 +1538,7 @@ const firebaseConfig = {
             const btn = document.getElementById('loginBtn');
             
             btn.disabled = true;
-            btn.innerHTML = '🔄 Logging in...';
+            btn.innerHTML = '<span class="spinner" style="width:20px;height:20px;margin:0;"></span> Logging in...';
             
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -1277,7 +1546,7 @@ const firebaseConfig = {
                     await signOut(auth);
                     showToast('Unauthorized access', 'error');
                 } else {
-                    showToast('Login successful!', 'success');
+                    showToast('Welcome back, Admin!', 'success');
                 }
             } catch (error) {
                 let msg = 'Invalid credentials';
@@ -1287,89 +1556,125 @@ const firebaseConfig = {
                 showToast(msg, 'error');
             } finally {
                 btn.disabled = false;
-                btn.innerHTML = '🚀 Login to Dashboard';
+                btn.innerHTML = '<span>🚀</span> Login to Dashboard';
             }
         });
 
         // Logout
         window.logout = async () => {
             await signOut(auth);
-            showToast('Logged out successfully', 'success');
+            showToast('Logged out successfully', 'info');
         };
 
         // Load all data
-        function loadData() {
+        function loadAllData() {
             loadWithdrawals();
             loadTasks();
-            loadQuests();
+            loadUsers();
             loadGiveaways();
-            loadSettings();
+            loadQuests();
             loadLuckyCodes();
             loadGiftSettings();
+            loadSettings();
             loadAdmins();
+            loadStats();
         }
 
-        // ==================== WITHDRAWALS ====================
+        // Stats
+        function loadStats() {
+            // Users count
+            onValue(ref(db, 'users'), (snapshot) => {
+                const count = snapshot.exists() ? Object.keys(snapshot.val()).length : 0;
+                document.getElementById('statUsers').textContent = formatNumber(count);
+            });
+
+            // Tasks count
+            onValue(ref(db, 'tasks'), (snapshot) => {
+                if (snapshot.exists()) {
+                    const tasks = Object.values(snapshot.val()).filter(t => t.active !== false);
+                    document.getElementById('statTasks').textContent = tasks.length;
+                } else {
+                    document.getElementById('statTasks').textContent = '0';
+                }
+            });
+
+            // Pending withdrawals
+            onValue(ref(db, 'withdrawals'), (snapshot) => {
+                if (snapshot.exists()) {
+                    const pending = Object.values(snapshot.val()).filter(w => w.status === 'pending');
+                    document.getElementById('statWithdrawals').textContent = pending.length;
+                } else {
+                    document.getElementById('statWithdrawals').textContent = '0';
+                }
+            });
+
+            // Total gold
+            onValue(ref(db, 'users'), (snapshot) => {
+                if (snapshot.exists()) {
+                    let total = 0;
+                    Object.values(snapshot.val()).forEach(u => total += (u.goldBalance || 0));
+                    document.getElementById('statGold').textContent = formatNumber(total);
+                }
+            });
+        }
+
+        // Withdrawals
         function loadWithdrawals() {
-            const withdrawalsRef = ref(db, 'withdrawals');
-            onValue(withdrawalsRef, (snapshot) => {
+            onValue(ref(db, 'withdrawals'), (snapshot) => {
                 const container = document.getElementById('withdrawalsList');
                 if (!snapshot.exists()) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">💰</div>
-                            <p>No withdrawal requests</p>
-                        </div>
-                    `;
+                    container.innerHTML = '<div class="empty-state"><div class="empty-icon">💸</div><p>No withdrawal requests</p></div>';
                     return;
                 }
                 
-                const data = snapshot.val();
-                const withdrawals = Object.entries(data)
+                allWithdrawals = Object.entries(snapshot.val())
                     .map(([id, val]) => ({ id, ...val }))
-                    .filter(w => w.status === 'pending')
-                    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0))
-                    .slice(0, 100);
+                    .sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
                 
-                if (withdrawals.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">✅</div>
-                            <p>No pending withdrawals</p>
-                        </div>
-                    `;
-                    return;
-                }
+                renderWithdrawals(allWithdrawals);
+            });
+        }
 
-                container.innerHTML = withdrawals.map(w => `
-                    <div class="item">
-                        <div class="item-header">
-                            <div>
-                                <strong style="color: var(--primary);">@${w.username || 'N/A'}</strong>
-                                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-                                    ${w.createdAt ? new Date(w.createdAt).toLocaleString() : 'Unknown date'}
-                                </p>
-                            </div>
-                            <span class="badge badge-pending">${w.status}</span>
+        function renderWithdrawals(withdrawals) {
+            const container = document.getElementById('withdrawalsList');
+            if (withdrawals.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>No results found</p></div>';
+                return;
+            }
+
+            container.innerHTML = withdrawals.slice(0, 100).map(w => `
+                <div class="item">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-title">@${w.username || 'Unknown'}</div>
+                            <div class="item-meta">ID: ${w.userId || w.chatId} • ${formatDate(w.createdAt)}</div>
                         </div>
-                        <div style="margin: 12px 0; font-size: 14px;">
-                            <p><strong>💰 Amount:</strong> ${w.goldAmount} GOLD → ${w.tonAmount ? w.tonAmount.toFixed(6) : 'N/A'} TON</p>
-                            <p style="font-size: 12px; color: var(--text-muted); word-break: break-all; margin-top: 6px;">
-                                📍 ${w.tonAddress || 'N/A'}
-                            </p>
-                        </div>
+                        <span class="badge badge-${w.status}">${w.status}</span>
+                    </div>
+                    <div class="item-reward">💰 ${formatNumber(w.goldAmount)} GOLD → ${(w.tonAmount || 0).toFixed(6)} TON</div>
+                    <div class="item-meta" style="word-break: break-all;">📍 ${w.tonAddress}</div>
+                    ${w.status === 'pending' ? `
                         <div class="btn-group">
-                            <button class="btn btn-small btn-success" onclick="approveWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
+                            <button class="btn btn-success btn-small" onclick="approveWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
                                 ✅ Approve
                             </button>
-                            <button class="btn btn-small btn-danger" onclick="rejectWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
+                            <button class="btn btn-danger btn-small" onclick="rejectWithdrawal('${w.id}', ${JSON.stringify(w).replace(/"/g, '&quot;')})">
                                 ❌ Reject
                             </button>
                         </div>
-                    </div>
-                `).join('');
-            });
+                    ` : w.transactionHash ? `<div class="item-meta">🔗 TX: ${w.transactionHash.substring(0, 30)}...</div>` : ''}
+                </div>
+            `).join('');
         }
+
+        window.filterWithdrawals = () => {
+            const search = document.getElementById('searchWithdrawals').value.toLowerCase();
+            const filtered = allWithdrawals.filter(w => 
+                (w.username || '').toLowerCase().includes(search) ||
+                (w.tonAddress || '').toLowerCase().includes(search)
+            );
+            renderWithdrawals(filtered);
+        };
 
         window.approveWithdrawal = async (id, withdrawal) => {
             const txHash = prompt('Enter transaction hash/link:');
@@ -1382,27 +1687,21 @@ const firebaseConfig = {
                     processedAt: Date.now()
                 });
                 
-                const settingsSnapshot = await get(ref(db, 'admin/settings'));
-                if (settingsSnapshot.exists()) {
-                    const settings = settingsSnapshot.val();
-                    if (settings.botApiToken && (withdrawal.userId || withdrawal.chatId)) {
-                        const message = `✅ Withdrawal Approved!\n\n💰 Amount: ${withdrawal.goldAmount} GOLD → ${withdrawal.tonAmount ? withdrawal.tonAmount.toFixed(6) : 'N/A'} TON\n🔗 TX: ${txHash}`;
-                        
-                        await fetch(`https://api.telegram.org/bot${settings.botApiToken}/sendMessage`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                chat_id: withdrawal.userId || withdrawal.chatId,
-                                text: message
-                            })
-                        });
-                    }
+                const settings = await get(ref(db, 'admin/settings'));
+                if (settings.exists() && settings.val().botApiToken) {
+                    const botToken = settings.val().botApiToken;
+                    const message = `✅ Withdrawal Approved!\n\n💰 Amount: ${withdrawal.goldAmount} GOLD → ${withdrawal.tonAmount.toFixed(6)} TON\n🔗 TX: ${txHash}`;
+                    
+                    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: withdrawal.userId || withdrawal.chatId, text: message })
+                    });
                 }
                 
                 showToast('Withdrawal approved!', 'success');
             } catch (error) {
-                console.error("Error:", error);
-                showToast('Error approving withdrawal', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
@@ -1412,80 +1711,70 @@ const firebaseConfig = {
             
             try {
                 const userId = withdrawal.userId || withdrawal.chatId;
-                if (userId) {
-                    const userRef = ref(db, `users/${userId}`);
-                    const userSnap = await get(userRef);
-                    
-                    if (userSnap.exists()) {
-                        const balance = userSnap.val().goldBalance || 0;
-                        await update(userRef, {
-                            goldBalance: balance + withdrawal.goldAmount
-                        });
-                    }
-                    
-                    const settingsSnapshot = await get(ref(db, 'admin/settings'));
-                    if (settingsSnapshot.exists()) {
-                        const settings = settingsSnapshot.val();
-                        if (settings.botApiToken) {
-                            const message = `❌ Withdrawal Rejected\n\n💰 ${withdrawal.goldAmount} GOLD has been refunded\n📝 Reason: ${reason}`;
-                            
-                            await fetch(`https://api.telegram.org/bot${settings.botApiToken}/sendMessage`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                    chat_id: userId,
-                                    text: message
-                                })
-                            });
-                        }
-                    }
+                const userRef = ref(db, `users/${userId}`);
+                const userSnap = await get(userRef);
+                
+                if (userSnap.exists()) {
+                    const balance = userSnap.val().goldBalance || 0;
+                    await update(userRef, { goldBalance: balance + withdrawal.goldAmount });
                 }
                 
                 await update(ref(db, `withdrawals/${id}`), {
                     status: 'rejected',
-                    rejectionReason: reason,
+                    rejectReason: reason,
                     processedAt: Date.now()
                 });
                 
-                showToast('Withdrawal rejected and refunded', 'success');
+                const settings = await get(ref(db, 'admin/settings'));
+                if (settings.exists() && settings.val().botApiToken) {
+                    const botToken = settings.val().botApiToken;
+                    const message = `❌ Withdrawal Rejected\n\n💰 ${withdrawal.goldAmount} GOLD refunded\n📝 Reason: ${reason}`;
+                    
+                    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: userId, text: message })
+                    });
+                }
+                
+                showToast('Withdrawal rejected & refunded', 'success');
             } catch (error) {
-                console.error("Error:", error);
-                showToast('Error rejecting withdrawal', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
-        // ==================== TASKS ====================
+        // Tasks
+        window.toggleTaskFields = () => {
+            const type = document.getElementById('taskType').value;
+            document.getElementById('taskCodeGroup').style.display = type === 'code' ? 'block' : 'none';
+        };
+
         function loadTasks() {
-            const tasksRef = ref(db, 'tasks');
-            onValue(tasksRef, (snapshot) => {
+            onValue(ref(db, 'tasks'), (snapshot) => {
                 const container = document.getElementById('tasksList');
                 if (!snapshot.exists()) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">📋</div>
-                            <p>No tasks created yet</p>
-                        </div>
-                    `;
+                    container.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div><p>No tasks created</p></div>';
                     return;
                 }
                 
-                const data = snapshot.val();
-                const tasks = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                const tasks = Object.entries(snapshot.val()).map(([id, val]) => ({ id, ...val }));
                 
                 container.innerHTML = tasks.map(t => `
                     <div class="item">
                         <div class="item-header">
-                            <div style="flex: 1;">
-                                <strong>${t.title}</strong>
-                                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                            <div>
+                                <div class="item-title">${t.title}</div>
+                                <div class="item-desc">${t.description || ''}</div>
+                                <div class="item-reward">+${formatNumber(t.reward)} GOLD</div>
+                                <div class="item-meta">
+                                    📊 ${t.completedImpressions || 0}/${t.impressions || '∞'} impressions • 
                                     ${t.type === 'telegram' ? '📱 Telegram' : t.type === 'code' ? '🔑 Code' : '🔗 Link'}
-                                    • 🪙 ${t.reward} GOLD
-                                </p>
-                                <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">
-                                    👁️ ${t.completedImpressions || 0}/${t.impressions || 1000} impressions
-                                </p>
+                                </div>
                             </div>
-                            <button class="btn btn-small btn-danger btn-icon" onclick="deleteTask('${t.id}')">🗑️</button>
+                            <div class="btn-group" style="margin:0; flex-direction:column;">
+                                <button class="btn btn-secondary btn-icon" onclick="editTask('${t.id}', ${JSON.stringify(t).replace(/"/g, '&quot;')})">✏️</button>
+                                <button class="btn btn-danger btn-icon" onclick="deleteTask('${t.id}')">🗑️</button>
+                            </div>
                         </div>
                     </div>
                 `).join('');
@@ -1494,49 +1783,51 @@ const firebaseConfig = {
 
         window.createTask = async () => {
             const title = document.getElementById('taskTitle').value.trim();
-            const description = document.getElementById('taskDesc').value.trim();
+            const desc = document.getElementById('taskDesc').value.trim();
             const type = document.getElementById('taskType').value;
-            const reward = parseInt(document.getElementById('taskReward').value);
-            const impressions = parseInt(document.getElementById('taskImpressions').value);
+            const reward = parseInt(document.getElementById('taskReward').value) || 100;
             const link = document.getElementById('taskLink').value.trim();
             const code = document.getElementById('taskCode').value.trim();
+            const impressions = parseInt(document.getElementById('taskImpressions').value) || 0;
             
-            if (!title || isNaN(reward) || reward <= 0) {
-                showToast('Please fill required fields correctly', 'error');
+            if (!title || !link) {
+                showToast('Please fill required fields', 'error');
                 return;
             }
             
-            const taskData = {
-                title,
-                description,
-                type,
-                reward,
-                impressions: impressions || 1000,
-                completedImpressions: 0,
-                link,
-                is_active: true,
-                createdAt: Date.now()
-            };
-            
-            if (type === 'code' && code) {
-                taskData.code = code;
-            }
-            
             try {
-                await push(ref(db, 'tasks'), taskData);
+                await push(ref(db, 'tasks'), {
+                    title, description: desc, type, reward, link,
+                    code: type === 'code' ? code : null,
+                    impressions, completedImpressions: 0,
+                    createdAt: Date.now(), active: true
+                });
                 
-                // Clear form
                 document.getElementById('taskTitle').value = '';
                 document.getElementById('taskDesc').value = '';
-                document.getElementById('taskReward').value = '100';
-                document.getElementById('taskImpressions').value = '1000';
                 document.getElementById('taskLink').value = '';
                 document.getElementById('taskCode').value = '';
-                
-                showToast('Task created successfully!', 'success');
+                showToast('Task created!', 'success');
             } catch (error) {
-                console.error("Error:", error);
-                showToast('Error creating task', 'error');
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        window.editTask = async (id, task) => {
+            const newTitle = prompt('Task title:', task.title);
+            if (!newTitle) return;
+            const newReward = prompt('Reward (GOLD):', task.reward);
+            const newImpressions = prompt('Max impressions:', task.impressions || 0);
+            
+            try {
+                await update(ref(db, `tasks/${id}`), {
+                    title: newTitle,
+                    reward: parseInt(newReward) || task.reward,
+                    impressions: parseInt(newImpressions) || 0
+                });
+                showToast('Task updated!', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
@@ -1544,148 +1835,139 @@ const firebaseConfig = {
             if (!confirm('Delete this task?')) return;
             try {
                 await remove(ref(db, `tasks/${id}`));
-                showToast('Task deleted', 'success');
+                showToast('Task deleted!', 'success');
             } catch (error) {
-                showToast('Error deleting task', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
-        // ==================== QUESTS ====================
-        function loadQuests() {
-            const questsRef = ref(db, 'quests');
-            onValue(questsRef, (snapshot) => {
-                const container = document.getElementById('questsList');
+        // Users
+        function loadUsers() {
+            onValue(ref(db, 'users'), (snapshot) => {
+                const container = document.getElementById('usersList');
                 if (!snapshot.exists()) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">🎯</div>
-                            <p>No quests created yet</p>
-                        </div>
-                    `;
+                    container.innerHTML = '<div class="empty-state"><div class="empty-icon">👥</div><p>No users found</p></div>';
                     return;
                 }
                 
-                const data = snapshot.val();
-                const quests = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                allUsers = Object.entries(snapshot.val())
+                    .map(([id, val]) => ({ id, ...val }))
+                    .sort((a, b) => (b.goldBalance || 0) - (a.goldBalance || 0));
                 
-                container.innerHTML = quests.map(q => `
-                    <div class="item">
-                        <div class="item-header">
-                            <div style="flex: 1;">
-                                <strong>${q.title}</strong>
-                                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-                                    ${q.type === 'referral' ? '👥 Referral' : '✅ Task'} Quest
-                                </p>
-                                <p style="font-size: 13px; color: var(--primary); margin-top: 4px;">
-                                    🎯 Target: ${q.target} • 🪙 Reward: ${q.reward} GOLD
-                                </p>
-                            </div>
-                            <button class="btn btn-small btn-danger btn-icon" onclick="deleteQuest('${q.id}')">🗑️</button>
-                        </div>
-                    </div>
-                `).join('');
+                renderUsers(allUsers.slice(0, 50));
             });
         }
 
-        window.createQuest = async () => {
-            const title = document.getElementById('questTitle').value.trim();
-            const type = document.getElementById('questType').value;
-            const target = parseInt(document.getElementById('questTarget').value);
-            const reward = parseInt(document.getElementById('questReward').value);
-            const description = document.getElementById('questDescription').value.trim();
-            
-            if (!title || isNaN(target) || target <= 0 || isNaN(reward) || reward <= 0) {
-                showToast('Please fill all fields correctly', 'error');
+        function renderUsers(users) {
+            const container = document.getElementById('usersList');
+            if (users.length === 0) {
+                container.innerHTML = '<div class="empty-state"><div class="empty-icon">🔍</div><p>No users found</p></div>';
                 return;
             }
+
+            container.innerHTML = users.map(u => `
+                <div class="item">
+                    <div class="item-header">
+                        <div>
+                            <div class="item-title">@${u.username || 'Unknown'}</div>
+                            <div class="item-meta">ID: ${u.id}</div>
+                            <div class="item-reward">
+                                💰 ${formatNumber(u.goldBalance || 0)} GOLD • 
+                                💎 ${u.gemBalance || 0} Gems • 
+                                🎴 ${u.cardBalance || 0} Cards
+                            </div>
+                            <div class="item-meta">
+                                👥 ${u.totalReferrals || 0} referrals • 
+                                ✅ ${(u.completedTasks || []).length} tasks
+                            </div>
+                        </div>
+                        <div class="btn-group" style="margin:0; flex-direction:column;">
+                            <button class="btn btn-secondary btn-icon" onclick="editUser('${u.id}')">✏️</button>
+                            <button class="btn btn-warning btn-icon" onclick="resetUser('${u.id}')">🔄</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.filterUsers = () => {
+            const search = document.getElementById('searchUsers').value.toLowerCase();
+            const filtered = allUsers.filter(u => 
+                (u.username || '').toLowerCase().includes(search) ||
+                String(u.id).includes(search)
+            );
+            renderUsers(filtered.slice(0, 50));
+        };
+
+        window.editUser = async (id) => {
+            const userSnap = await get(ref(db, `users/${id}`));
+            if (!userSnap.exists()) return showToast('User not found', 'error');
+            
+            const user = userSnap.val();
+            const newGold = prompt('Gold Balance:', user.goldBalance || 0);
+            if (newGold === null) return;
+            
+            const newGems = prompt('Gem Balance:', user.gemBalance || 0);
+            const newCards = prompt('Card Balance:', user.cardBalance || 0);
             
             try {
-                await push(ref(db, 'quests'), {
-                    title,
-                    type,
-                    target,
-                    reward,
-                    description,
-                    createdAt: Date.now()
+                await update(ref(db, `users/${id}`), {
+                    goldBalance: parseInt(newGold) || 0,
+                    gemBalance: parseInt(newGems) || 0,
+                    cardBalance: parseInt(newCards) || 0
                 });
-                
-                // Clear form
-                document.getElementById('questTitle').value = '';
-                document.getElementById('questTarget').value = '5';
-                document.getElementById('questReward').value = '1000';
-                document.getElementById('questDescription').value = '';
-                
-                showToast('Quest created successfully!', 'success');
+                showToast('User updated!', 'success');
             } catch (error) {
-                console.error("Error:", error);
-                showToast('Error creating quest', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
-        window.deleteQuest = async (id) => {
-            if (!confirm('Delete this quest?')) return;
+        window.resetUser = async (id) => {
+            if (!confirm('Reset this user\'s completed tasks?')) return;
             try {
-                await remove(ref(db, `quests/${id}`));
-                showToast('Quest deleted', 'success');
+                await update(ref(db, `users/${id}`), { completedTasks: [] });
+                showToast('User tasks reset!', 'success');
             } catch (error) {
-                showToast('Error deleting quest', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
-        // ==================== GIVEAWAYS ====================
+        // Giveaways
         function loadGiveaways() {
-            const giveawaysRef = ref(db, 'giveaways');
-            onValue(giveawaysRef, (snapshot) => {
+            onValue(ref(db, 'giveaways'), (snapshot) => {
                 const container = document.getElementById('giveawaysList');
                 if (!snapshot.exists()) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">🎉</div>
-                            <p>No giveaways created yet</p>
-                        </div>
-                    `;
+                    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🎁</div><p>No giveaways</p></div>';
                     return;
                 }
                 
-                const data = snapshot.val();
-                const giveaways = Object.entries(data).map(([id, val]) => ({ id, ...val }));
+                const giveaways = Object.entries(snapshot.val()).map(([id, val]) => ({ id, ...val }));
                 
                 container.innerHTML = giveaways.map(g => {
-                    const isEnded = g.status === 'ended' || (g.endDate && Date.now() > g.endDate);
-                    const timeLeft = g.endDate ? Math.max(0, Math.ceil((g.endDate - Date.now()) / (1000 * 60 * 60 * 24))) : 0;
+                    const endDate = new Date(g.endAt);
+                    const isEnded = Date.now() > g.endAt;
                     
                     return `
                         <div class="item">
                             <div class="item-header">
-                                <div style="flex: 1;">
-                                    <strong>${g.title}</strong>
-                                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-                                        ${g.description || 'No description'}
-                                    </p>
-                                    <p style="font-size: 13px; margin-top: 8px;">
-                                        🥇 ${g.prize1 || 0} • 🥈 ${g.prize2 || 0} • 🥉 ${g.prize3 || 0} GOLD
-                                    </p>
-                                    <p style="font-size: 12px; color: ${isEnded ? 'var(--danger)' : 'var(--success)'}; margin-top: 4px;">
-                                        ${isEnded ? '🏁 Ended' : `⏰ ${timeLeft} days remaining`}
-                                    </p>
-                                    ${g.winners ? `
-                                        <div style="margin-top: 8px; padding: 8px; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
-                                            <p style="font-size: 12px; color: var(--success);">🏆 Winners:</p>
-                                            ${g.winners.map((w, i) => `<p style="font-size: 11px; color: var(--text-secondary);">${i + 1}. @${w.username || 'User'} - ${w.prize} GOLD</p>`).join('')}
-                                        </div>
-                                    ` : ''}
+                                <div>
+                                    <div class="item-title">${g.title}</div>
+                                    <div class="item-desc">${g.description || ''}</div>
+                                    <div class="item-reward">
+                                        🥇 ${formatNumber(g.prize1)} • 
+                                        🥈 ${formatNumber(g.prize2)} • 
+                                        🥉 ${formatNumber(g.prize3)} GOLD
+                                    </div>
+                                    <div class="item-meta">
+                                        ${isEnded ? '🔴 Ended' : '🟢 Active'} • 
+                                        Ends: ${endDate.toLocaleDateString()}
+                                    </div>
                                 </div>
-                                <span class="badge ${isEnded ? 'badge-ended' : 'badge-active'}">
-                                    ${isEnded ? 'Ended' : 'Active'}
-                                </span>
+                                <span class="badge ${isEnded ? 'badge-rejected' : 'badge-active'}">${isEnded ? 'Ended' : 'Active'}</span>
                             </div>
                             <div class="btn-group">
-                                ${!isEnded ? `
-                                    <button class="btn btn-small btn-warning" onclick="endGiveaway('${g.id}')">
-                                        🏁 End & Pick Winners
-                                    </button>
-                                ` : ''}
-                                <button class="btn btn-small btn-danger" onclick="deleteGiveaway('${g.id}')">🗑️ Delete</button>
+                                ${!isEnded ? `<button class="btn btn-warning btn-small" onclick="endGiveaway('${g.id}')">🏆 End & Pick Winners</button>` : ''}
+                                <button class="btn btn-danger btn-small" onclick="deleteGiveaway('${g.id}')">🗑️ Delete</button>
                             </div>
                         </div>
                     `;
@@ -1695,43 +1977,30 @@ const firebaseConfig = {
 
         window.createGiveaway = async () => {
             const title = document.getElementById('giveawayTitle').value.trim();
-            const description = document.getElementById('giveawayDescription').value.trim();
-            const duration = parseInt(document.getElementById('giveawayDuration').value);
-            const prize1 = parseInt(document.getElementById('giveawayPrize1').value);
-            const prize2 = parseInt(document.getElementById('giveawayPrize2').value);
-            const prize3 = parseInt(document.getElementById('giveawayPrize3').value);
+            const desc = document.getElementById('giveawayDesc').value.trim();
+            const prize1 = parseInt(document.getElementById('prize1').value) || 10000;
+            const prize2 = parseInt(document.getElementById('prize2').value) || 5000;
+            const prize3 = parseInt(document.getElementById('prize3').value) || 2500;
+            const days = parseInt(document.getElementById('giveawayDays').value) || 7;
             
-            if (!title || isNaN(duration) || duration <= 0) {
-                showToast('Please fill required fields', 'error');
+            if (!title) {
+                showToast('Please enter a title', 'error');
                 return;
             }
             
             try {
-                const endDate = Date.now() + (duration * 24 * 60 * 60 * 1000);
-                
                 await push(ref(db, 'giveaways'), {
-                    title,
-                    description,
-                    prize1: prize1 || 0,
-                    prize2: prize2 || 0,
-                    prize3: prize3 || 0,
-                    endDate,
-                    status: 'active',
-                    createdAt: Date.now()
+                    title, description: desc,
+                    prize1, prize2, prize3,
+                    createdAt: Date.now(),
+                    endAt: Date.now() + (days * 24 * 60 * 60 * 1000)
                 });
                 
-                // Clear form
                 document.getElementById('giveawayTitle').value = '';
-                document.getElementById('giveawayDescription').value = '';
-                document.getElementById('giveawayDuration').value = '7';
-                document.getElementById('giveawayPrize1').value = '10000';
-                document.getElementById('giveawayPrize2').value = '5000';
-                document.getElementById('giveawayPrize3').value = '2500';
-                
-                showToast('Giveaway created successfully!', 'success');
+                document.getElementById('giveawayDesc').value = '';
+                showToast('Giveaway created!', 'success');
             } catch (error) {
-                console.error("Error:", error);
-                showToast('Error creating giveaway', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
@@ -1739,86 +2008,230 @@ const firebaseConfig = {
             if (!confirm('End this giveaway and pick winners based on card balance?')) return;
             
             try {
-                // Get giveaway data
                 const giveawaySnap = await get(ref(db, `giveaways/${id}`));
-                if (!giveawaySnap.exists()) {
-                    showToast('Giveaway not found', 'error');
-                    return;
-                }
-                const giveaway = giveawaySnap.val();
+                if (!giveawaySnap.exists()) return showToast('Giveaway not found', 'error');
                 
-                // Get all users sorted by card balance
+                const giveaway = giveawaySnap.val();
                 const usersSnap = await get(ref(db, 'users'));
-                if (!usersSnap.exists()) {
-                    showToast('No users found', 'error');
-                    return;
-                }
+                
+                if (!usersSnap.exists()) return showToast('No users found', 'error');
                 
                 const users = Object.entries(usersSnap.val())
-                    .map(([id, data]) => ({ id, ...data }))
+                    .map(([uid, data]) => ({ id: uid, ...data }))
                     .filter(u => (u.cardBalance || 0) > 0)
-                    .sort((a, b) => (b.cardBalance || 0) - (a.cardBalance || 0))
-                    .slice(0, 3);
+                    .sort((a, b) => (b.cardBalance || 0) - (a.cardBalance || 0));
                 
-                if (users.length === 0) {
-                    showToast('No eligible users with card balance', 'error');
-                    return;
-                }
+                if (users.length < 3) return showToast('Not enough participants', 'error');
                 
-                const prizes = [giveaway.prize1, giveaway.prize2, giveaway.prize3];
-                const winners = [];
+                const winners = [
+                    { user: users[0], prize: giveaway.prize1, place: 1 },
+                    { user: users[1], prize: giveaway.prize2, place: 2 },
+                    { user: users[2], prize: giveaway.prize3, place: 3 }
+                ];
                 
                 // Award prizes
-                for (let i = 0; i < Math.min(users.length, 3); i++) {
-                    const user = users[i];
-                    const prize = prizes[i] || 0;
-                    
-                    if (prize > 0) {
-                        await update(ref(db, `users/${user.id}`), {
-                            goldBalance: (user.goldBalance || 0) + prize
-                        });
-                    }
-                    
-                    winners.push({
-                        id: user.id,
-                        username: user.username || 'User',
-                        prize,
-                        cardBalance: user.cardBalance || 0
+                for (const winner of winners) {
+                    await update(ref(db, `users/${winner.user.id}`), {
+                        goldBalance: (winner.user.goldBalance || 0) + winner.prize
                     });
                 }
                 
-                // Update giveaway status
+                // Save winners
                 await update(ref(db, `giveaways/${id}`), {
-                    status: 'ended',
-                    winners,
-                    endedAt: Date.now()
+                    ended: true,
+                    endAt: Date.now(),
+                    winners: winners.map(w => ({
+                        id: w.user.id,
+                        username: w.user.username,
+                        prize: w.prize,
+                        place: w.place
+                    }))
                 });
                 
-                showToast(`Giveaway ended! ${winners.length} winners awarded`, 'success');
+                showToast(`Winners: 🥇${winners[0].user.username} 🥈${winners[1].user.username} 🥉${winners[2].user.username}`, 'success');
             } catch (error) {
-                console.error("Error:", error);
-                showToast('Error ending giveaway', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
         window.deleteGiveaway = async (id) => {
-            if (!confirm('Delete this giveaway permanently?')) return;
+            if (!confirm('Delete this giveaway?')) return;
             try {
                 await remove(ref(db, `giveaways/${id}`));
-                showToast('Giveaway deleted', 'success');
+                showToast('Giveaway deleted!', 'success');
             } catch (error) {
-                showToast('Error deleting giveaway', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
-        // ==================== SETTINGS ====================
+        // Quests
+        function loadQuests() {
+            onValue(ref(db, 'quests'), (snapshot) => {
+                const container = document.getElementById('questsList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🎯</div><p>No quests</p></div>';
+                    return;
+                }
+                
+                const quests = Object.entries(snapshot.val()).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = quests.map(q => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">${q.type === 'referral' ? '👥 Referral Quest' : '📋 Task Quest'}</div>
+                                <div class="item-desc">Reach ${q.target} ${q.type === 'referral' ? 'referrals' : 'tasks'}</div>
+                                <div class="item-reward">+${formatNumber(q.reward)} GOLD</div>
+                            </div>
+                            <button class="btn btn-danger btn-icon" onclick="deleteQuest('${q.id}')">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.createQuest = async () => {
+            const type = document.getElementById('questType').value;
+            const target = parseInt(document.getElementById('questTarget').value) || 5;
+            const reward = parseInt(document.getElementById('questReward').value) || 1000;
+            
+            try {
+                await push(ref(db, 'quests'), { type, target, reward, createdAt: Date.now() });
+                showToast('Quest created!', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        window.deleteQuest = async (id) => {
+            if (!confirm('Delete this quest?')) return;
+            try {
+                await remove(ref(db, `quests/${id}`));
+                showToast('Quest deleted!', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        // Lucky Codes
+        function loadLuckyCodes() {
+            onValue(ref(db, 'luckyCodes'), (snapshot) => {
+                const container = document.getElementById('luckyCodesList');
+                if (!snapshot.exists()) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🍀</div><p>No lucky codes</p></div>';
+                    return;
+                }
+                
+                const codes = Object.entries(snapshot.val()).map(([id, val]) => ({ id, ...val }));
+                
+                container.innerHTML = codes.map(c => `
+                    <div class="item">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">${c.title}</div>
+                                <div class="item-meta">Code: <strong style="color:var(--primary);">${c.code}</strong></div>
+                                <div class="item-reward">+${c.reward} ${c.rewardType === 'key' ? '🔑 KEY' : c.rewardType === 'gem' ? '💎 GEM' : c.rewardType === 'card' ? '🎴 CARD' : '💰 GOLD'}</div>
+                                <div class="item-meta">Used by ${(c.usedBy || []).length} users</div>
+                            </div>
+                            <button class="btn btn-danger btn-icon" onclick="deleteLuckyCode('${c.code}')">🗑️</button>
+                        </div>
+                    </div>
+                `).join('');
+            });
+        }
+
+        window.createLuckyCode = async () => {
+            const title = document.getElementById('luckyCodeTitle').value.trim();
+            const code = document.getElementById('luckyCode').value.toUpperCase().trim();
+            const reward = parseInt(document.getElementById('luckyCodeReward').value) || 500;
+            const rewardType = document.getElementById('luckyCodeType').value;
+            
+            if (!title || !code) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            
+            try {
+                await set(ref(db, `luckyCodes/${code}`), {
+                    title, code, reward, rewardType,
+                    createdAt: Date.now(), usedBy: []
+                });
+                
+                document.getElementById('luckyCodeTitle').value = '';
+                document.getElementById('luckyCode').value = '';
+                showToast('Lucky code created!', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        window.deleteLuckyCode = async (code) => {
+            if (!confirm('Delete this lucky code?')) return;
+            try {
+                await remove(ref(db, `luckyCodes/${code}`));
+                showToast('Lucky code deleted!', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        // Gift/Treasure Settings
+        function loadGiftSettings() {
+            get(ref(db, 'admin/giftSettings')).then((snapshot) => {
+                if (snapshot.exists()) {
+                    giftRewards = snapshot.val().rewards || [100, 200, 500, 1000, 2000, 5000];
+                }
+                renderGiftRewards();
+            });
+        }
+
+        function renderGiftRewards() {
+            const container = document.getElementById('giftRewardsList');
+            container.innerHTML = giftRewards.map((reward, index) => `
+                <div class="tag">
+                    <span>💰 ${formatNumber(reward)} GOLD</span>
+                    <span class="tag-remove" onclick="removeGiftReward(${index})">×</span>
+                </div>
+            `).join('');
+        }
+
+        window.addGiftReward = () => {
+            const input = document.getElementById('newGiftReward');
+            const amount = parseInt(input.value);
+            
+            if (isNaN(amount) || amount <= 0) {
+                showToast('Invalid amount', 'error');
+                return;
+            }
+            
+            giftRewards.push(amount);
+            giftRewards.sort((a, b) => a - b);
+            input.value = '';
+            renderGiftRewards();
+        };
+
+        window.removeGiftReward = (index) => {
+            giftRewards.splice(index, 1);
+            renderGiftRewards();
+        };
+
+        window.saveGiftSettings = async () => {
+            try {
+                await set(ref(db, 'admin/giftSettings'), { rewards: giftRewards });
+                showToast('Treasure settings saved!', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        // Settings
         function loadSettings() {
             get(ref(db, 'admin/settings')).then((snapshot) => {
                 if (snapshot.exists()) {
                     const data = snapshot.val();
-                    document.getElementById('minWithdrawal').value = data.minWithdrawal || 1000;
+                    document.getElementById('minWithdrawal').value = data.minWithdrawal || 10000;
                     document.getElementById('goldToTonRate').value = data.goldToTonRate || 0.00001;
-                    document.getElementById('goldPerTon').value = data.goldPerTon || 100;
+                    document.getElementById('goldPerTon').value = data.goldPerTon || 100000;
                     document.getElementById('referralPercentage').value = data.referralPercentage || 10;
                     document.getElementById('taskPaymentAddress').value = data.taskPaymentAddress || '';
                     document.getElementById('botApiToken').value = data.botApiToken || '';
@@ -1827,271 +2240,151 @@ const firebaseConfig = {
                     document.getElementById('dailyCheckReward').value = data.dailyCheckReward || 100;
                     document.getElementById('dailyCheckChannel').value = data.dailyCheckChannel || '';
                     document.getElementById('impressionPrice').value = data.impressionPrice || 0.05;
+                    document.getElementById('gemFee').value = data.gemFee || 5;
                     document.getElementById('manifestName').value = data.manifestName || 'MoneyShark';
                     document.getElementById('manifestUrl').value = data.manifestUrl || '';
                     document.getElementById('manifestIconUrl').value = data.manifestIconUrl || '';
-                    document.getElementById('themeBackground').value = data.themeColors?.background || '200 50% 10%';
-                    document.getElementById('themePrimary').value = data.themeColors?.primary || '187 94% 43%';
+                    document.getElementById('themeBackground').value = data.themeColors?.background || '200 70% 8%';
+                    document.getElementById('themePrimary').value = data.themeColors?.primary || '190 100% 50%';
                     document.getElementById('themeGold').value = data.themeColors?.gold || '45 93% 58%';
                     document.getElementById('allowTestnet').checked = data.allowTestnet || false;
-                    document.getElementById('gemWithdrawalFee').value = data.gemWithdrawalFee || 5;
+                    currentAdminList = data.adminList || [8101021767, 7323645947];
                 }
-            }).catch(error => {
-                console.error("Error loading settings:", error);
             });
         }
 
         window.saveSettings = async () => {
-            const settingsData = {
-                minWithdrawal: parseInt(document.getElementById('minWithdrawal').value),
-                goldToTonRate: parseFloat(document.getElementById('goldToTonRate').value),
-                goldPerTon: parseInt(document.getElementById('goldPerTon').value),
-                referralPercentage: parseInt(document.getElementById('referralPercentage').value),
-                taskPaymentAddress: document.getElementById('taskPaymentAddress').value.trim(),
-                botApiToken: document.getElementById('botApiToken').value.trim(),
-                adReward: parseInt(document.getElementById('adReward').value),
-                dailyAdLimit: parseInt(document.getElementById('dailyAdLimit').value),
-                dailyCheckReward: parseInt(document.getElementById('dailyCheckReward').value),
-                dailyCheckChannel: document.getElementById('dailyCheckChannel').value.trim(),
-                impressionPrice: parseFloat(document.getElementById('impressionPrice').value),
-                manifestName: document.getElementById('manifestName').value.trim(),
-                manifestUrl: document.getElementById('manifestUrl').value.trim(),
-                manifestIconUrl: document.getElementById('manifestIconUrl').value.trim(),
-                allowTestnet: document.getElementById('allowTestnet').checked,
-                gemWithdrawalFee: parseInt(document.getElementById('gemWithdrawalFee').value) || 5,
-                themeColors: {
-                    background: document.getElementById('themeBackground').value.trim(),
-                    primary: document.getElementById('themePrimary').value.trim(),
-                    gold: document.getElementById('themeGold').value.trim()
-                }
-            };
-            
-            if (window.currentAdminList) {
-                settingsData.adminList = window.currentAdminList;
-            }
-
             try {
-                await set(ref(db, 'admin/settings'), settingsData);
-                showToast('All settings saved!', 'success');
-            } catch (error) {
-                console.error("Error:", error);
-                showToast('Error saving settings', 'error');
-            }
-        };
-
-        // ==================== LUCKY CODES ====================
-        function loadLuckyCodes() {
-            const codesRef = ref(db, 'luckyCodes');
-            onValue(codesRef, (snapshot) => {
-                const container = document.getElementById('luckyCodesList');
-                if (!snapshot.exists()) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">🎁</div>
-                            <p>No lucky codes created</p>
-                        </div>
-                    `;
-                    return;
-                }
+                const currentSettings = (await get(ref(db, 'admin/settings'))).val() || {};
                 
-                const data = snapshot.val();
-                const codes = Object.entries(data).map(([id, val]) => ({ id, ...val }));
-                
-                container.innerHTML = codes.map(c => {
-                    const icons = { gold: '🪙', key: '🔑', gem: '💎', card: '🎴' };
-                    const rewardIcon = icons[c.rewardType] || '🪙';
-                    const isExpired = c.expiryTime && new Date(c.expiryTime) < new Date();
-                    
-                    return `
-                        <div class="item">
-                            <div class="item-header">
-                                <div style="flex: 1;">
-                                    <strong>${c.title}</strong>
-                                    <p style="font-size: 14px; color: var(--gold); margin-top: 4px; font-family: monospace;">
-                                        ${c.code}
-                                    </p>
-                                    <p style="font-size: 13px; color: var(--primary); margin-top: 4px;">
-                                        ${rewardIcon} +${c.reward}
-                                    </p>
-                                    ${c.expiryTime ? `
-                                        <p style="font-size: 11px; color: ${isExpired ? 'var(--danger)' : 'var(--text-muted)'}; margin-top: 4px;">
-                                            ⏰ ${isExpired ? 'Expired' : 'Expires'}: ${new Date(c.expiryTime).toLocaleString()}
-                                        </p>
-                                    ` : ''}
-                                </div>
-                                <button class="btn btn-small btn-danger btn-icon" onclick="deleteLuckyCode('${c.code}')">🗑️</button>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            });
-        }
-
-        window.createLuckyCode = async () => {
-            const title = document.getElementById('luckyCodeTitle').value.trim();
-            const code = document.getElementById('luckyCode').value.trim().toUpperCase();
-            const reward = parseInt(document.getElementById('luckyCodeReward').value);
-            const rewardType = document.getElementById('luckyCodeType').value;
-            const expiryInput = document.getElementById('luckyCodeExpiry').value;
-            
-            if (!title || !code || isNaN(reward) || reward <= 0) {
-                showToast('Please fill all fields correctly', 'error');
-                return;
-            }
-            
-            const codeData = {
-                title,
-                code,
-                reward,
-                rewardType,
-                createdAt: Date.now()
-            };
-            
-            if (expiryInput) {
-                codeData.expiryTime = new Date(expiryInput).getTime();
-            }
-            
-            try {
-                await set(ref(db, `luckyCodes/${code}`), codeData);
-                
-                document.getElementById('luckyCodeTitle').value = '';
-                document.getElementById('luckyCode').value = '';
-                document.getElementById('luckyCodeReward').value = '500';
-                document.getElementById('luckyCodeExpiry').value = '';
-                
-                showToast('Lucky code created!', 'success');
-            } catch (error) {
-                console.error("Error:", error);
-                showToast('Error creating lucky code', 'error');
-            }
-        };
-
-        window.deleteLuckyCode = async (code) => {
-            if (!confirm(`Delete code "${code}"?`)) return;
-            try {
-                await remove(ref(db, `luckyCodes/${code}`));
-                showToast('Lucky code deleted', 'success');
-            } catch (error) {
-                showToast('Error deleting code', 'error');
-            }
-        };
-
-        // ==================== GIFT SETTINGS ====================
-        let giftRewards = [];
-        
-        function loadGiftSettings() {
-            get(ref(db, 'admin/settings/giftSettings')).then((snapshot) => {
-                if (snapshot.exists()) {
-                    const data = snapshot.val();
-                    document.getElementById('giftKeyCost').value = data.keyCost || 1;
-                    giftRewards = data.rewards || [];
-                } else {
-                    giftRewards = [
-                        { amount: 100, probability: 40 },
-                        { amount: 500, probability: 30 },
-                        { amount: 1000, probability: 20 },
-                        { amount: 5000, probability: 9 },
-                        { amount: 10000, probability: 1 }
-                    ];
-                }
-                renderGiftRewards();
-            });
-        }
-        
-        function renderGiftRewards() {
-            const container = document.getElementById('giftRewardsList');
-            if (giftRewards.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">No reward tiers configured</p>';
-                return;
-            }
-            
-            const totalProb = giftRewards.reduce((sum, r) => sum + r.probability, 0);
-            
-            container.innerHTML = giftRewards.map((r, idx) => `
-                <div class="item" style="margin-bottom: 8px;">
-                    <div class="item-header" style="margin-bottom: 0;">
-                        <div>
-                            <strong style="color: var(--gold);">🪙 ${r.amount} GOLD</strong>
-                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-                                📊 ${r.probability}% chance
-                            </p>
-                        </div>
-                        <button class="btn btn-small btn-danger btn-icon" onclick="removeGiftReward(${idx})">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-            
-            if (Math.abs(totalProb - 100) > 0.1) {
-                container.innerHTML += `
-                    <div class="alert alert-error" style="margin-top: 12px;">
-                        ⚠️ Total probability is ${totalProb.toFixed(1)}% (should be 100%)
-                    </div>
-                `;
-            }
-        }
-        
-        window.addGiftReward = () => {
-            const amount = parseInt(document.getElementById('newGiftAmount').value);
-            const probability = parseFloat(document.getElementById('newGiftProbability').value);
-            
-            if (isNaN(amount) || amount <= 0 || isNaN(probability) || probability <= 0) {
-                showToast('Enter valid amount and probability', 'error');
-                return;
-            }
-            
-            giftRewards.push({ amount, probability });
-            giftRewards.sort((a, b) => a.amount - b.amount);
-            
-            document.getElementById('newGiftAmount').value = '';
-            document.getElementById('newGiftProbability').value = '';
-            renderGiftRewards();
-            showToast('Reward tier added', 'success');
-        };
-        
-        window.removeGiftReward = (index) => {
-            if (!confirm('Remove this tier?')) return;
-            giftRewards.splice(index, 1);
-            renderGiftRewards();
-        };
-        
-        window.saveGiftSettings = async () => {
-            const keyCost = parseInt(document.getElementById('giftKeyCost').value);
-            
-            if (isNaN(keyCost) || keyCost <= 0) {
-                showToast('Enter valid key cost', 'error');
-                return;
-            }
-            
-            try {
-                await set(ref(db, 'admin/settings/giftSettings'), {
-                    keyCost,
-                    rewards: giftRewards
+                await set(ref(db, 'admin/settings'), {
+                    ...currentSettings,
+                    minWithdrawal: parseInt(document.getElementById('minWithdrawal').value) || 10000,
+                    goldToTonRate: parseFloat(document.getElementById('goldToTonRate').value) || 0.00001,
+                    goldPerTon: parseInt(document.getElementById('goldPerTon').value) || 100000,
+                    referralPercentage: parseInt(document.getElementById('referralPercentage').value) || 10,
+                    taskPaymentAddress: document.getElementById('taskPaymentAddress').value,
+                    adReward: parseInt(document.getElementById('adReward').value) || 50,
+                    dailyAdLimit: parseInt(document.getElementById('dailyAdLimit').value) || 10,
+                    dailyCheckReward: parseInt(document.getElementById('dailyCheckReward').value) || 100,
+                    impressionPrice: parseFloat(document.getElementById('impressionPrice').value) || 0.05,
+                    gemFee: parseInt(document.getElementById('gemFee').value) || 5,
+                    themeColors: {
+                        background: document.getElementById('themeBackground').value,
+                        primary: document.getElementById('themePrimary').value,
+                        gold: document.getElementById('themeGold').value
+                    }
                 });
-                showToast('Gift settings saved!', 'success');
+                showToast('Settings saved!', 'success');
             } catch (error) {
-                showToast('Error saving gift settings', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
-        // ==================== ADMINS ====================
+        window.saveBotConfig = async () => {
+            try {
+                const currentSettings = (await get(ref(db, 'admin/settings'))).val() || {};
+                
+                await set(ref(db, 'admin/settings'), {
+                    ...currentSettings,
+                    botApiToken: document.getElementById('botApiToken').value,
+                    dailyCheckChannel: document.getElementById('dailyCheckChannel').value,
+                    manifestName: document.getElementById('manifestName').value,
+                    manifestUrl: document.getElementById('manifestUrl').value,
+                    manifestIconUrl: document.getElementById('manifestIconUrl').value,
+                    allowTestnet: document.getElementById('allowTestnet').checked
+                });
+                showToast('Bot configuration saved!', 'success');
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        // Broadcast Message
+        window.sendBroadcast = async () => {
+            const recipient = document.getElementById('msgRecipient').value.trim();
+            const text = document.getElementById('msgText').value.trim();
+            const image = document.getElementById('msgImage').value.trim();
+            
+            if (!text) return showToast('Please enter a message', 'error');
+            
+            const settings = await get(ref(db, 'admin/settings'));
+            if (!settings.exists() || !settings.val().botApiToken) {
+                return showToast('Bot token not configured', 'error');
+            }
+            
+            const botToken = settings.val().botApiToken;
+            
+            try {
+                if (recipient) {
+                    // Single user
+                    if (image) {
+                        await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: recipient, photo: image, caption: text })
+                        });
+                    } else {
+                        await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ chat_id: recipient, text: text })
+                        });
+                    }
+                    showToast('Message sent!', 'success');
+                } else {
+                    // Broadcast to all
+                    const usersSnap = await get(ref(db, 'users'));
+                    if (!usersSnap.exists()) return showToast('No users found', 'error');
+                    
+                    const users = Object.keys(usersSnap.val());
+                    let sent = 0;
+                    
+                    for (const chatId of users) {
+                        try {
+                            if (image) {
+                                await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ chat_id: chatId, photo: image, caption: text })
+                                });
+                            } else {
+                                await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ chat_id: chatId, text: text })
+                                });
+                            }
+                            sent++;
+                        } catch (e) { /* Skip failed */ }
+                        await new Promise(r => setTimeout(r, 50)); // Rate limit
+                    }
+                    
+                    showToast(`Broadcast sent to ${sent}/${users.length} users`, 'success');
+                }
+                
+                document.getElementById('msgText').value = '';
+                document.getElementById('msgImage').value = '';
+            } catch (error) {
+                showToast('Error: ' + error.message, 'error');
+            }
+        };
+
+        // Admins
         function loadAdmins() {
             get(ref(db, 'admin/settings/adminList')).then((snapshot) => {
                 const container = document.getElementById('adminsList');
-                const admins = snapshot.exists() ? snapshot.val() : [8101021767, 7323645947];
-                window.currentAdminList = admins;
+                currentAdminList = snapshot.exists() ? snapshot.val() : [8101021767, 7323645947];
                 
-                container.innerHTML = admins.map(id => `
-                    <div class="item" style="margin-bottom: 8px;">
-                        <div class="item-header" style="margin-bottom: 0;">
+                container.innerHTML = currentAdminList.map(id => `
+                    <div class="item">
+                        <div class="item-header">
                             <div>
-                                <strong style="font-family: monospace;">${id}</strong>
-                                ${(id === 8101021767 || id === 7323645947) ? 
-                                    '<span class="badge badge-active" style="margin-left: 8px;">👑 Main Admin</span>' : 
-                                    ''
-                                }
+                                <div class="item-title">Admin ID: ${id}</div>
+                                ${(id === 8101021767 || id === 7323645947) ? '<div class="item-meta">👑 Super Admin</div>' : ''}
                             </div>
                             ${(id !== 8101021767 && id !== 7323645947) ? `
-                                <button class="btn btn-small btn-danger btn-icon" onclick="removeAdmin(${id})">🗑️</button>
+                                <button class="btn btn-danger btn-icon" onclick="removeAdmin(${id})">🗑️</button>
                             ` : ''}
                         </div>
                     </div>
@@ -2100,48 +2393,71 @@ const firebaseConfig = {
         }
 
         window.addAdmin = async () => {
-            const idInput = document.getElementById('newAdminId');
-            const id = parseInt(idInput.value);
-            
-            if (!id || id <= 0) {
-                showToast('Enter valid Telegram ID', 'error');
-                return;
-            }
-            
-            const currentAdmins = window.currentAdminList || [8101021767, 7323645947];
-            
-            if (currentAdmins.includes(id)) {
-                showToast('Admin already exists', 'error');
-                return;
-            }
+            const id = parseInt(document.getElementById('newAdminId').value);
+            if (!id || id <= 0) return showToast('Invalid Telegram ID', 'error');
+            if (currentAdminList.includes(id)) return showToast('Admin already exists', 'error');
             
             try {
-                const newList = [...currentAdmins, id];
+                const newList = [...currentAdminList, id];
                 await set(ref(db, 'admin/settings/adminList'), newList);
-                window.currentAdminList = newList;
-                idInput.value = '';
+                currentAdminList = newList;
+                document.getElementById('newAdminId').value = '';
                 loadAdmins();
                 showToast('Admin added!', 'success');
             } catch (error) {
-                showToast('Error adding admin', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
 
         window.removeAdmin = async (id) => {
-            if (!confirm(`Remove admin ${id}?`)) return;
-            
-            const currentAdmins = window.currentAdminList || [];
-            const newList = currentAdmins.filter(a => a !== id);
-
+            if (!confirm('Remove this admin?')) return;
             try {
+                const newList = currentAdminList.filter(a => a !== id);
                 await set(ref(db, 'admin/settings/adminList'), newList);
-                window.currentAdminList = newList;
+                currentAdminList = newList;
                 loadAdmins();
-                showToast('Admin removed', 'success');
+                showToast('Admin removed!', 'success');
             } catch (error) {
-                showToast('Error removing admin', 'error');
+                showToast('Error: ' + error.message, 'error');
             }
         };
+
+        // Tab switching
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab).classList.add('active');
+        };
+
+        // Modal
+        window.closeModal = (id) => {
+            document.getElementById(id).classList.remove('active');
+        };
+
+        // Toast notifications
+        window.showToast = (message, type = 'info') => {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span> ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        };
+
+        // Utilities
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        function formatDate(timestamp) {
+            if (!timestamp) return 'Unknown';
+            return new Date(timestamp).toLocaleDateString('en-US', {
+                month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+            });
+        }
     </script>
 </body>
 </html>
